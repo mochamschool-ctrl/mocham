@@ -1,0 +1,580 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Better Auth User Tables (for student portal) - moved to end
+// model User {
+//   id        String   @id @default(cuid())
+//   name      String?
+//   email     String   @unique
+//   emailVerified DateTime?
+//   image     String?
+//   firstName String?
+//   lastName  String?
+//   phone     String?
+//   program   String?
+//   qualifications String?
+//   studentId String?
+//   enrollmentStatus String?
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   accounts Account[]
+//   sessions Session[]
+//   grades StudentGrade[]
+//   certificates StudentCertificate[]
+//   schedules StudentSchedule[]
+
+//   @@map("users")
+// }
+
+// Admin Users (separate from student users)
+model AdminUser {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  firstName String?
+  lastName  String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("admin_users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// Academic Programs
+model Program {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  duration    String
+  type        String   // "degree", "diploma", "certificate"
+  level       String   // "undergraduate", "graduate", "professional"
+  capacity    Int
+  isAccredited Boolean @default(false)
+  features    String[]
+  icon        String?
+  slug        String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  applications Application[]
+  
+  @@map("programs")
+}
+
+// Medical Services
+model Service {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  price       Float
+  duration    String?
+  features    String[]
+  icon        String?
+  category    String   // "homeopathy", "integrative", "herbal"
+  isActive    Boolean  @default(true)
+  slug        String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  appointments Appointment[]
+  
+  @@map("services")
+}
+
+// Medical Practitioners
+model Doctor {
+  id          String   @id @default(cuid())
+  name        String
+  title       String
+  specialization String
+  bio         String
+  education   String
+  experience  Int
+  rating      Float    @default(0)
+  reviewCount Int      @default(0)
+  image       String?
+  isActive    Boolean  @default(true)
+  slug        String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  appointments Appointment[]
+  
+  @@map("doctors")
+}
+
+// News and Blog Posts
+model News {
+  id          String   @id @default(cuid())
+  title       String
+  content     String
+  excerpt     String
+  category    String   // "education", "research", "general"
+  author      String
+  image       String?
+  isPublished Boolean  @default(false)
+  publishedAt DateTime?
+  slug        String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("news")
+}
+
+// Patient Testimonials
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  content   String
+  rating    Int      @default(5)
+  service   String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("testimonials")
+}
+
+// Student Applications
+model Application {
+  id          String   @id @default(cuid())
+  firstName   String
+  lastName    String
+  email       String
+  phone       String
+  programId   String
+  status      String   @default("pending") // "pending", "approved", "rejected"
+  documents   String[] // File paths
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  program     Program  @relation(fields: [programId], references: [id])
+  
+  @@map("applications")
+}
+
+// Patient Appointments
+model Appointment {
+  id        String   @id @default(cuid())
+  firstName String
+  lastName  String
+  email     String
+  phone     String
+  serviceId String
+  doctorId  String?
+  date      DateTime
+  time      String
+  status    String   @default("scheduled") // "scheduled", "completed", "cancelled"
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  service    Service  @relation(fields: [serviceId], references: [id])
+  doctor     Doctor?  @relation(fields: [doctorId], references: [id])
+  
+  @@map("appointments")
+}
+
+// Contact Messages
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String
+  status    String   @default("unread") // "unread", "read", "replied"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("contact_messages")
+}
+
+// History Timeline Events
+model HistoryEvent {
+  id          String   @id @default(cuid())
+  year        Int
+  title       String
+  description String
+  icon        String
+  color       String   // "ucsf-blue", "medical-green", "accent-orange"
+  stats       String[] // Array of statistics
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("history_events")
+}
+
+// Research Publications
+model Publication {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  content     String?  // Full article content
+  type        String   // "journal", "conference", "study"
+  year        Int
+  journal     String?
+  authors     String[]
+  doi         String?
+  url         String?
+  imageUrl    String?
+  slug        String   @unique
+  tags        String[]
+  readingTime Int?     // Reading time in minutes
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("publications")
+}
+
+// Research Studies
+model ResearchStudy {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  content     String?  // Full study content
+  status      String   // "active", "recruiting", "completed", "planning"
+  startDate   DateTime
+  endDate     DateTime?
+  participants Int?
+  centers     Int?
+  imageUrl    String?
+  slug        String   @unique
+  tags        String[]
+  readingTime Int?     // Reading time in minutes
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("research_studies")
+}
+
+// Research Collaborations
+model Collaboration {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  logo        String?
+  website     String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("collaborations")
+}
+
+// Achievements
+model Achievement {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  icon        String
+  color       String   // "ucsf-blue", "medical-green", "accent-orange"
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("achievements")
+}
+
+// Founder Information
+model FounderInfo {
+  id          String   @id @default(cuid())
+  name        String
+  birthDate   DateTime?
+  deathDate   DateTime?
+  title       String?
+  biography   Json     // JSON structure for detailed biography
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("founder_info")
+}
+
+// College History Events (Enhanced)
+model CollegeHistoryEvent {
+  id          String   @id @default(cuid())
+  year        Int
+  title       String
+  description String?
+  eventType   String   // "foundation", "milestone", "achievement", "expansion", "recognition"
+  details     Json?    // Additional structured data
+  imageUrl    String?
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("college_history_events")
+}
+
+// Academic Programs History
+model AcademicProgramHistory {
+  id              String   @id @default(cuid())
+  facultyName     String
+  departmentName  String?
+  programName     String
+  degreeType      String?
+  establishedYear Int?
+  description     String?
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@map("academic_programs_history")
+}
+
+// Facilities and Infrastructure History
+model FacilityHistory {
+  id              String   @id @default(cuid())
+  name            String
+  type            String   // "laboratory", "museum", "research_center", "library", "clinic"
+  description     String?
+  establishedYear Int?
+  equipment       String[] // Array of equipment
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@map("facility_history")
+}
+
+// Legacy and Achievements (Enhanced)
+model LegacyAchievement {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  category    String   // "recognition", "graduation", "international", "research", "community"
+  year        Int?
+  details     Json?    // Additional structured data
+  isFeatured  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("legacy_achievements")
+}
+
+// Historical Documents and Images
+model HistoricalDocument {
+  id            String   @id @default(cuid())
+  title         String
+  documentType  String   // "image", "document", "certificate", "newspaper", "photo"
+  fileUrl       String?
+  description   String?
+  year          Int?
+  source        String?
+  isFeatured    Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@map("historical_documents")
+}
+
+// Student Grades (managed by admin)
+model StudentGrade {
+  id          String   @id @default(cuid())
+  userId      String
+  courseId    String?  // Optional reference to Course model
+  courseName  String
+  courseCode  String
+  semester    String
+  academicYear String
+  grade       String   // "A", "B", "C", "D", "F", "P", "NP"
+  score       Float?   // Numeric score if available
+  maxScore    Float?   // Maximum possible score
+  comments    String?
+  uploadedBy  String?  // Admin user ID who uploaded this grade
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course      Course?  @relation(fields: [courseId], references: [id], onDelete: SetNull)
+  
+  @@map("student_grades")
+}
+
+// Student Certificates (managed by admin)
+model StudentCertificate {
+  id          String   @id @default(cuid())
+  userId      String
+  title       String
+  description String?
+  certificateType String // "degree", "diploma", "certificate", "transcript", "completion"
+  fileUrl     String   // Path to the certificate file
+  issueDate   DateTime
+  expiryDate  DateTime?
+  isActive    Boolean  @default(true)
+  uploadedBy  String?  // Admin user ID who uploaded this certificate
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("student_certificates")
+}
+
+// Student Schedules/Timetable (managed by admin)
+model StudentSchedule {
+  id          String   @id @default(cuid())
+  userId      String
+  courseId    String?  // Optional reference to Course model
+  title       String
+  description String?
+  courseCode  String?
+  courseName  String?
+  instructor  String?
+  location    String?
+  startTime   String   // Time format: "HH:MM"
+  endTime     String   // Time format: "HH:MM"
+  dayOfWeek   String   // "Monday", "Tuesday", etc.
+  date        DateTime? // Specific date if it's a one-time event
+  scheduleType String   // "class", "exam", "meeting", "event"
+  semester    String
+  academicYear String
+  isActive    Boolean  @default(true)
+  createdBy   String?  // Admin user ID who created this schedule
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course      Course?  @relation(fields: [courseId], references: [id], onDelete: SetNull)
+  
+  @@map("student_schedules")
+}
+
+// Course Management System
+model Course {
+  id          String   @id @default(cuid())
+  title       String
+  code        String   @unique
+  description String?
+  credits     Int      @default(3)
+  duration    String   // e.g., "16 weeks", "1 semester"
+  level       String   // "beginner", "intermediate", "advanced"
+  category    String   // "core", "elective", "practical"
+  instructor  String?
+  prerequisites String[] // Array of course codes
+  isActive    Boolean  @default(true)
+  maxStudents Int?
+  currentEnrollment Int @default(0)
+  semester    String   // "fall", "spring", "summer"
+  academicYear String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  grades      StudentGrade[]
+  schedules   StudentSchedule[]
+  enrollments CourseEnrollment[]
+  
+  @@map("courses")
+}
+
+// Course Enrollment (Many-to-Many relationship between Users and Courses)
+model CourseEnrollment {
+  id          String   @id @default(cuid())
+  userId      String
+  courseId    String
+  enrolledAt  DateTime @default(now())
+  status      String   @default("active") // "active", "completed", "dropped", "failed"
+  finalGrade  String?
+  completedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, courseId])
+  @@map("course_enrollments")
+}
+
+// Better Auth User Tables (for student portal)
+model User {
+  id        String   @id @default(cuid())
+  name      String?
+  email     String   @unique
+  emailVerified DateTime?
+  image     String?
+  firstName String?
+  lastName  String?
+  phone     String?
+  program   String?
+  qualifications String?
+  studentId String?
+  enrollmentStatus String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  accounts Account[]
+  sessions Session[]
+  grades StudentGrade[]
+  certificates StudentCertificate[]
+  schedules StudentSchedule[]
+  enrollments CourseEnrollment[]
+
+  @@map("users")
+}
