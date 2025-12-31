@@ -19,6 +19,7 @@ import {
 import Link from "next/link"
 import Image from "next/image"
 import { Metadata } from "next"
+import { headers } from "next/headers"
 import { academicProgramsHistoryData, historicalDocumentsData } from "@/lib/history-data"
 import { HistoricalCarousel } from "@/components/historical-carousel"
 import PublicationsCarousel from "@/components/publications-carousel"
@@ -74,13 +75,41 @@ interface Service {
   slug: string
 }
 
+// Helper function to get base URL
+async function getBaseUrl(): Promise<string> {
+  // First try environment variable
+  if (process.env.NEXT_PUBLIC_BASE_URL) {
+    return process.env.NEXT_PUBLIC_BASE_URL
+  }
+  
+  // Try to get from request headers (works in production)
+  try {
+    const headersList = await headers()
+    const host = headersList.get('host')
+    const protocol = headersList.get('x-forwarded-proto') || 'https'
+    if (host) {
+      return `${protocol}://${host}`
+    }
+  } catch (error) {
+    // Headers might not be available in all contexts
+  }
+  
+  // Fallback to localhost for development
+  return 'http://localhost:3000'
+}
+
 // Fetch data functions
 async function getPrograms(): Promise<Program[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/programs`, {
+    const baseUrl = await getBaseUrl()
+    const url = `${baseUrl}/api/programs`
+    const res = await fetch(url, {
       cache: 'no-store'
     })
-    if (!res.ok) throw new Error('Failed to fetch programs')
+    if (!res.ok) {
+      console.error(`Failed to fetch programs: ${res.status} ${res.statusText} from ${url}`)
+      return []
+    }
     return res.json()
   } catch (error) {
     console.error('Error fetching programs:', error)
@@ -90,10 +119,15 @@ async function getPrograms(): Promise<Program[]> {
 
 async function getPublications(): Promise<Publication[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/publications?limit=6`, {
+    const baseUrl = await getBaseUrl()
+    const url = `${baseUrl}/api/publications?limit=6`
+    const res = await fetch(url, {
       cache: 'no-store'
     })
-    if (!res.ok) throw new Error('Failed to fetch publications')
+    if (!res.ok) {
+      console.error(`Failed to fetch publications: ${res.status} ${res.statusText} from ${url}`)
+      return []
+    }
     return res.json()
   } catch (error) {
     console.error('Error fetching publications:', error)
@@ -103,10 +137,15 @@ async function getPublications(): Promise<Publication[]> {
 
 async function getServices(): Promise<Service[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/services`, {
+    const baseUrl = await getBaseUrl()
+    const url = `${baseUrl}/api/services`
+    const res = await fetch(url, {
       cache: 'no-store'
     })
-    if (!res.ok) throw new Error('Failed to fetch services')
+    if (!res.ok) {
+      console.error(`Failed to fetch services: ${res.status} ${res.statusText} from ${url}`)
+      return []
+    }
     return res.json()
   } catch (error) {
     console.error('Error fetching services:', error)
