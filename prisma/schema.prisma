@@ -429,6 +429,21 @@ model HistoricalDocument {
   @@map("historical_documents")
 }
 
+// Gallery Images
+model Gallery {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  imageUrl    String
+  category    String   // "Campus", "Events", "Students", "Faculty", "General"
+  isFeatured  Boolean  @default(false)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("gallery")
+}
+
 // Student Grades (managed by admin)
 model StudentGrade {
   id          String   @id @default(cuid())

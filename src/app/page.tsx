@@ -13,7 +13,8 @@ import {
   Star,
   ChevronLeft,
   ChevronRight,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Calendar
 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
@@ -21,6 +22,7 @@ import { Metadata } from "next"
 import { academicProgramsHistoryData, historicalDocumentsData } from "@/lib/history-data"
 import { HistoricalCarousel } from "@/components/historical-carousel"
 import PublicationsCarousel from "@/components/publications-carousel"
+import { GallerySection } from "@/components/gallery-section"
 import { StructuredDataWrapper } from "@/components/seo/structured-data-wrapper"
 import { 
   generateOrganizationSchema, 
@@ -236,6 +238,116 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Photo Gallery Section */}
+      <GallerySection />
+
+      {/* Courses Promotion Section */}
+      {programs.length > 0 && (
+        <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900">
+          <div className="container mx-auto px-4">
+            <div className="max-w-6xl mx-auto">
+              <div className="text-center mb-10 sm:mb-12">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-ucsf-blue dark:text-blue-400 mb-3 sm:mb-4">
+                  Our Educational Programs
+                </h2>
+                <p className="text-base sm:text-lg lg:text-xl text-dim-blue-600 dark:text-gray-300 max-w-3xl mx-auto">
+                  MOCHAM offers comprehensive study courses in Homeopathy and other alternative medical sciences with a standard and approved syllabus. Choose from our range of accredited programs.
+                </p>
+              </div>
+
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-10 sm:mb-12">
+                {programs.slice(0, 6).map((program) => (
+                  <Card 
+                    key={program.id} 
+                    className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden"
+                  >
+                    <CardContent className="p-6 sm:p-8 h-full flex flex-col">
+                      {/* Icon and Type Badge */}
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-ucsf-blue to-blue-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                          <GraduationCap className="h-6 w-6 sm:h-7 sm:w-7 text-white" />
+                        </div>
+                        <span className="text-xs font-semibold px-2 py-1 rounded bg-ucsf-blue/10 text-ucsf-blue dark:bg-blue-900/30 dark:text-blue-400">
+                          {program.type}
+                        </span>
+                      </div>
+
+                      {/* Title */}
+                      <h3 className="text-xl sm:text-2xl font-bold text-dim-blue-800 dark:text-gray-100 mb-3 group-hover:text-ucsf-blue dark:group-hover:text-blue-400 transition-colors">
+                        {program.title}
+                      </h3>
+
+                      {/* Description */}
+                      <p className="text-sm sm:text-base text-dim-blue-600 dark:text-gray-400 mb-4 flex-grow line-clamp-3">
+                        {program.description}
+                      </p>
+
+                      {/* Duration and Level */}
+                      <div className="flex items-center gap-4 mb-4 text-xs sm:text-sm text-dim-blue-600 dark:text-gray-400">
+                        <div className="flex items-center gap-1">
+                          <Calendar className="h-4 w-4" />
+                          <span>{program.duration}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Award className="h-4 w-4" />
+                          <span className="capitalize">{program.level}</span>
+                        </div>
+                      </div>
+
+                      {/* Features */}
+                      {program.features && program.features.length > 0 && (
+                        <div className="mb-4">
+                          <ul className="space-y-1">
+                            {program.features.slice(0, 2).map((feature, idx) => (
+                              <li key={idx} className="flex items-center text-xs text-dim-blue-600 dark:text-gray-400">
+                                <CheckCircle className="h-3 w-3 text-green-600 dark:text-green-500 mr-2 flex-shrink-0" />
+                                <span className="line-clamp-1">{feature}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      {/* Accredited Badge */}
+                      {program.isAccredited && (
+                        <div className="mb-4">
+                          <span className="inline-flex items-center text-xs font-semibold px-2 py-1 rounded bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                            <CheckCircle className="h-3 w-3 mr-1" />
+                            Accredited
+                          </span>
+                        </div>
+                      )}
+
+                      {/* CTA Link */}
+                      <Link href="/education" className="mt-auto">
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="w-full group-hover:bg-ucsf-blue group-hover:text-white group-hover:border-ucsf-blue transition-colors"
+                        >
+                          Learn More
+                          <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                      </Link>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+
+              {/* View All Programs CTA */}
+              <div className="text-center">
+                <Link href="/education">
+                  <Button size="lg" variant="medical" className="font-semibold">
+                    View All Programs
+                    <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* What We're Talking About - Research Section */}
       <section className="py-12 sm:py-16 lg:py-20 bg-gray-900">

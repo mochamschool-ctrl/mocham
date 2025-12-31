@@ -46,7 +46,7 @@ const Header = () => {
             <div className="flex items-center space-x-6 mb-2 md:mb-0">
               <div className="flex items-center space-x-2">
                 <Mail className="h-4 w-4" />
-                <span className="text-xs sm:text-sm">Mochams1@yahoo.com</span>
+                <span className="text-xs sm:text-sm">Mochamschool@gmail.com</span>
               </div>
             </div>
             <div className="flex items-center space-x-2">
@@ -105,14 +105,14 @@ const Header = () => {
                         <div className="font-semibold text-gray-900 dark:text-gray-100">History</div>
                         <p className="text-sm text-gray-600 dark:text-gray-400">Our journey and milestones</p>
                       </Link>
-                      <Link 
+                      {/* <Link 
                         href="/about-us#leadership" 
                         className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                         onClick={() => setIsProgramsOpen(false)}
                       >
                         <div className="font-semibold text-gray-900 dark:text-gray-100">Leadership</div>
                         <p className="text-sm text-gray-600 dark:text-gray-400">Meet our leadership team</p>
-                      </Link>
+                      </Link> */}
                     </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>

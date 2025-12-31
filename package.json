@@ -12,6 +12,13 @@
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
     "db:seed-research": "tsx prisma/seed-research.ts",
+    "db:update-content": "tsx scripts/update-content-from-md.ts",
+    "db:clean-and-update": "tsx scripts/clean-and-update-from-md.ts",
+    "db:update-education": "tsx scripts/update-education-from-md.ts",
+    "db:fetch-and-analyze": "tsx scripts/fetch-and-analyze-db.ts",
+    "db:clean-empty": "tsx scripts/clean-empty-collections.ts",
+    "db:populate-gallery": "tsx scripts/populate-gallery.ts",
+    "db:populate-historical-gallery": "tsx scripts/populate-historical-gallery.ts",
     "db:studio": "prisma studio"
   },
   "dependencies": {
@@ -22,6 +29,7 @@
     "better-auth": "^1.3.27",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "dotenv": "^16.6.1",
     "lucide-react": "^0.427.0",
     "next": "^15.0.0",
     "prisma": "^6.16.3",
