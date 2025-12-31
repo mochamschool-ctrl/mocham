@@ -257,7 +257,7 @@ export default async function HomePage() {
               </div>
 
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-10 sm:mb-12">
-                {programs.slice(0, 6).map((program) => (
+                {programs.map((program) => (
                   <Card 
                     key={program.id} 
                     className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden"
