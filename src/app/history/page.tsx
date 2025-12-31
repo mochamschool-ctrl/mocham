@@ -334,7 +334,7 @@ export default async function HistoryPage() {
                 <div className="flex items-start space-x-6">
                   <div className="w-32 h-32 rounded-lg flex items-center justify-center flex-shrink-0 relative overflow-hidden bg-gray-200 dark:bg-gray-700">
                     <Image
-                      src="/dre2.png"
+                      src="/new/200.png"
                       alt={founder ? founder.name : "Dr. Effiong Udo Umoren"}
                       fill
                       className="object-cover"
