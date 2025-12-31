@@ -394,7 +394,7 @@ export default async function NewsMediaPage() {
                   <div className="space-y-4">
                     <div>
                       <strong className="text-dim-blue-800 dark:text-gray-100">Email:</strong>
-                      <span className="text-dim-blue-600 dark:text-gray-300 ml-2">Mochams1@yahoo.com</span>
+                      <span className="text-dim-blue-600 dark:text-gray-300 ml-2">Mochamschool@gmail.com</span>
                     </div>
                     <div>
                       <strong className="text-dim-blue-800 dark:text-gray-100">Phone:</strong>

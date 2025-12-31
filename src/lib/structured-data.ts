@@ -142,9 +142,9 @@ export const generateOrganizationSchema = (): OrganizationSchema => ({
   },
   contactPoint: {
     '@type': 'ContactPoint',
-    telephone: '+234-803-793-5596',
+    telephone: '+2348037935596',
     contactType: 'Main Office',
-    email: 'Mochams1@yahoo.com',
+    email: 'Mochamschool@gmail.com',
     availableLanguage: ['English']
   },
   sameAs: []

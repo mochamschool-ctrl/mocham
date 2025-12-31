@@ -81,11 +81,11 @@ export default function PortalLanding() {
           <div className="portal-contact">
             <div>© UNDERGRADUATE PORTAL 2025 All right reserved</div>
             <div>
-              <a href="mailto:Mochams1@yahoo.com">Mochams1@yahoo.com</a> | 
-              <a href="tel:+234-803-793-5596"> +234-803-793-5596</a>
+              <a href="mailto:Mochamschool@gmail.com">Mochamschool@gmail.com</a> | 
+              <a href="tel:+2348037935596"> +2348037935596</a>
             </div>
             <div>
-              <a href="tel:+234-803-793-5596">+234-803-793-5596</a> 
+              <a href="tel:+2348037935596">+2348037935596</a> 
             </div>
           </div>
         </footer>

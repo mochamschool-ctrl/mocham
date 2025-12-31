@@ -161,11 +161,24 @@ export default async function EducationPage() {
                         <span>{program.capacity} Students/Year</span>
                       </div>
                     </div>
-                    <Link href={`/portal`}>
-                      <Button variant={getButtonVariant(program.type) as any} className="w-full">
-                        Learn More
-                      </Button>
-                    </Link>
+                    <div className="flex flex-col gap-2">
+                      <a 
+                        href={`mailto:Mochamschool@gmail.com?subject=Inquiry about Program: ${encodeURIComponent(program.title)}`}
+                        className="w-full"
+                      >
+                        <Button variant={getButtonVariant(program.type) as any} className="w-full">
+                          Learn More
+                        </Button>
+                      </a>
+                      <a 
+                        href="tel:+2348037935596"
+                        className="w-full"
+                      >
+                        <Button variant="outline" className="w-full">
+                          Enroll Now
+                        </Button>
+                      </a>
+                    </div>
                   </CardContent>
                 </Card>
               )
