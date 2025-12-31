@@ -167,7 +167,7 @@ export default async function EducationPage() {
                         className="w-full"
                       >
                         <Button variant={getButtonVariant(program.type) as any} className="w-full">
-                          Learn More
+                          Send Email
                         </Button>
                       </a>
                       <a 
@@ -175,7 +175,7 @@ export default async function EducationPage() {
                         className="w-full"
                       >
                         <Button variant="outline" className="w-full">
-                          Enroll Now
+                          Call Now
                         </Button>
                       </a>
                     </div>
