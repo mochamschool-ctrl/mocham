@@ -68,9 +68,17 @@ interface Collaboration {
 }
 
 // Fetch data functions
+// Helper function to get base URL (removes trailing slashes)
+function getBaseUrl(): string {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+  // Remove trailing slash to prevent double slashes in URLs
+  return baseUrl.replace(/\/+$/, '')
+}
+
 async function getPublications(): Promise<Publication[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/publications`, {
+    const baseUrl = getBaseUrl()
+    const res = await fetch(`${baseUrl}/api/publications`, {
       cache: 'no-store'
     })
     if (!res.ok) throw new Error('Failed to fetch publications')
@@ -83,7 +91,8 @@ async function getPublications(): Promise<Publication[]> {
 
 async function getResearchStudies(): Promise<ResearchStudy[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/research-studies`, {
+    const baseUrl = getBaseUrl()
+    const res = await fetch(`${baseUrl}/api/research-studies`, {
       cache: 'no-store'
     })
     if (!res.ok) throw new Error('Failed to fetch research studies')
@@ -96,7 +105,8 @@ async function getResearchStudies(): Promise<ResearchStudy[]> {
 
 async function getCollaborations(): Promise<Collaboration[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/collaborations`, {
+    const baseUrl = getBaseUrl()
+    const res = await fetch(`${baseUrl}/api/collaborations`, {
       cache: 'no-store'
     })
     if (!res.ok) throw new Error('Failed to fetch collaborations')

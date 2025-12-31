@@ -45,9 +45,17 @@ export const metadata = {
 }
 
 // Fetch news and historical documents from database
+// Helper function to get base URL (removes trailing slashes)
+function getBaseUrl(): string {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+  // Remove trailing slash to prevent double slashes in URLs
+  return baseUrl.replace(/\/+$/, '')
+}
+
 async function getNewsData(): Promise<NewsArticle[]> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/news`, {
+    const baseUrl = getBaseUrl()
+    const response = await fetch(`${baseUrl}/api/news`, {
       cache: 'no-store'
     })
     if (!response.ok) throw new Error('Failed to fetch news')
@@ -60,7 +68,8 @@ async function getNewsData(): Promise<NewsArticle[]> {
 
 async function getHistoricalDocuments(): Promise<HistoricalDocument[]> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/historical-documents`, {
+    const baseUrl = getBaseUrl()
+    const response = await fetch(`${baseUrl}/api/historical-documents`, {
       cache: 'no-store'
     })
     if (!response.ok) throw new Error('Failed to fetch historical documents')

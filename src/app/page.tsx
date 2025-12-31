@@ -75,27 +75,33 @@ interface Service {
   slug: string
 }
 
-// Helper function to get base URL
+// Helper function to get base URL (removes trailing slashes)
 async function getBaseUrl(): Promise<string> {
-  // First try environment variable
+  let baseUrl: string
+  
+  // Use environment variable if set (preferred method)
   if (process.env.NEXT_PUBLIC_BASE_URL) {
-    return process.env.NEXT_PUBLIC_BASE_URL
-  }
-  
-  // Try to get from request headers (works in production)
-  try {
-    const headersList = await headers()
-    const host = headersList.get('host')
-    const protocol = headersList.get('x-forwarded-proto') || 'https'
-    if (host) {
-      return `${protocol}://${host}`
+    baseUrl = process.env.NEXT_PUBLIC_BASE_URL
+  } else {
+    // Fallback: Try to get from request headers (works in production when env var not set)
+    try {
+      const headersList = await headers()
+      const host = headersList.get('host')
+      const protocol = headersList.get('x-forwarded-proto') || 
+                       (process.env.NODE_ENV === 'production' ? 'https' : 'http')
+      if (host) {
+        baseUrl = `${protocol}://${host}`
+      } else {
+        baseUrl = 'http://localhost:3000'
+      }
+    } catch (error) {
+      // Headers might not be available in all contexts (e.g., during build)
+      baseUrl = 'http://localhost:3000'
     }
-  } catch (error) {
-    // Headers might not be available in all contexts
   }
   
-  // Fallback to localhost for development
-  return 'http://localhost:3000'
+  // Remove trailing slash to prevent double slashes in URLs
+  return baseUrl.replace(/\/+$/, '')
 }
 
 // Fetch data functions

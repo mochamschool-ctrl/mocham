@@ -55,9 +55,17 @@ interface Testimonial {
 }
 
 // Fetch data functions
+// Helper function to get base URL (removes trailing slashes)
+function getBaseUrl(): string {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+  // Remove trailing slash to prevent double slashes in URLs
+  return baseUrl.replace(/\/+$/, '')
+}
+
 async function getServices(): Promise<Service[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/services`, {
+    const baseUrl = getBaseUrl()
+    const res = await fetch(`${baseUrl}/api/services`, {
       cache: 'no-store'
     })
     if (!res.ok) throw new Error('Failed to fetch services')
@@ -70,7 +78,8 @@ async function getServices(): Promise<Service[]> {
 
 async function getDoctors(): Promise<Doctor[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/doctors`, {
+    const baseUrl = getBaseUrl()
+    const res = await fetch(`${baseUrl}/api/doctors`, {
       cache: 'no-store'
     })
     if (!res.ok) throw new Error('Failed to fetch doctors')
@@ -83,7 +92,8 @@ async function getDoctors(): Promise<Doctor[]> {
 
 async function getTestimonials(): Promise<Testimonial[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/testimonials`, {
+    const baseUrl = getBaseUrl()
+    const res = await fetch(`${baseUrl}/api/testimonials`, {
       cache: 'no-store'
     })
     if (!res.ok) throw new Error('Failed to fetch testimonials')

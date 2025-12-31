@@ -55,10 +55,18 @@ interface ResearchStudy {
   updatedAt: string
 }
 
+// Helper function to get base URL (removes trailing slashes)
+function getBaseUrl(): string {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+  // Remove trailing slash to prevent double slashes in URLs
+  return baseUrl.replace(/\/+$/, '')
+}
+
 // Fetch individual publication
 async function getPublication(slug: string): Promise<Publication | null> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/publications?slug=${slug}`, {
+    const baseUrl = getBaseUrl()
+    const res = await fetch(`${baseUrl}/api/publications?slug=${slug}`, {
       cache: 'no-store'
     })
     if (!res.ok) return null
@@ -72,7 +80,8 @@ async function getPublication(slug: string): Promise<Publication | null> {
 // Fetch individual research study
 async function getResearchStudy(slug: string): Promise<ResearchStudy | null> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/research-studies?slug=${slug}`, {
+    const baseUrl = getBaseUrl()
+    const res = await fetch(`${baseUrl}/api/research-studies?slug=${slug}`, {
       cache: 'no-store'
     })
     if (!res.ok) return null
@@ -86,7 +95,8 @@ async function getResearchStudy(slug: string): Promise<ResearchStudy | null> {
 // Fetch related articles
 async function getRelatedPublications(type: string, currentId: string): Promise<Publication[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/publications?limit=3`, {
+    const baseUrl = getBaseUrl()
+    const res = await fetch(`${baseUrl}/api/publications?limit=3`, {
       cache: 'no-store'
     })
     if (!res.ok) return []

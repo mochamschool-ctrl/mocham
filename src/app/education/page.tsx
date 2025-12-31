@@ -30,10 +30,18 @@ interface Program {
   slug: string
 }
 
+// Helper function to get base URL (removes trailing slashes)
+function getBaseUrl(): string {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+  // Remove trailing slash to prevent double slashes in URLs
+  return baseUrl.replace(/\/+$/, '')
+}
+
 // Fetch data function
 async function getPrograms(): Promise<Program[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/programs`, {
+    const baseUrl = getBaseUrl()
+    const res = await fetch(`${baseUrl}/api/programs`, {
       cache: 'no-store'
     })
     if (!res.ok) throw new Error('Failed to fetch programs')

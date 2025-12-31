@@ -107,10 +107,18 @@ interface HistoricalDocument {
   isFeatured: boolean
 }
 
+// Helper function to get base URL (removes trailing slashes)
+function getBaseUrl(): string {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+  // Remove trailing slash to prevent double slashes in URLs
+  return baseUrl.replace(/\/+$/, '')
+}
+
 // Fetch data functions
 async function getHistoryEvents(): Promise<HistoryEvent[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/history`, {
+    const baseUrl = getBaseUrl()
+    const res = await fetch(`${baseUrl}/api/history`, {
       cache: 'no-store'
     })
     if (!res.ok) throw new Error('Failed to fetch history events')
@@ -123,7 +131,7 @@ async function getHistoryEvents(): Promise<HistoryEvent[]> {
 
 async function getAchievements(): Promise<Achievement[]> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
+    const baseUrl = getBaseUrl()
     const res = await fetch(`${baseUrl}/api/achievements`, {
       cache: 'no-store'
     })
@@ -137,7 +145,8 @@ async function getAchievements(): Promise<Achievement[]> {
 
 async function getFounderInfo(): Promise<FounderInfo[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/founder-info`, {
+    const baseUrl = getBaseUrl()
+    const res = await fetch(`${baseUrl}/api/founder-info`, {
       cache: 'no-store'
     })
     if (!res.ok) throw new Error('Failed to fetch founder info')
@@ -150,7 +159,8 @@ async function getFounderInfo(): Promise<FounderInfo[]> {
 
 async function getCollegeHistoryEvents(): Promise<CollegeHistoryEvent[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/college-history-events`, {
+    const baseUrl = getBaseUrl()
+    const res = await fetch(`${baseUrl}/api/college-history-events`, {
       cache: 'no-store'
     })
     if (!res.ok) throw new Error('Failed to fetch college history events')
@@ -163,7 +173,8 @@ async function getCollegeHistoryEvents(): Promise<CollegeHistoryEvent[]> {
 
 async function getAcademicProgramsHistory(): Promise<AcademicProgramHistory[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/academic-programs-history`, {
+    const baseUrl = getBaseUrl()
+    const res = await fetch(`${baseUrl}/api/academic-programs-history`, {
       cache: 'no-store'
     })
     if (!res.ok) throw new Error('Failed to fetch academic programs history')
@@ -176,7 +187,8 @@ async function getAcademicProgramsHistory(): Promise<AcademicProgramHistory[]> {
 
 async function getFacilitiesHistory(): Promise<FacilityHistory[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/facilities-history`, {
+    const baseUrl = getBaseUrl()
+    const res = await fetch(`${baseUrl}/api/facilities-history`, {
       cache: 'no-store'
     })
     if (!res.ok) throw new Error('Failed to fetch facilities history')
@@ -189,7 +201,8 @@ async function getFacilitiesHistory(): Promise<FacilityHistory[]> {
 
 async function getLegacyAchievements(): Promise<LegacyAchievement[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/legacy-achievements`, {
+    const baseUrl = getBaseUrl()
+    const res = await fetch(`${baseUrl}/api/legacy-achievements`, {
       cache: 'no-store'
     })
     if (!res.ok) throw new Error('Failed to fetch legacy achievements')
@@ -202,7 +215,8 @@ async function getLegacyAchievements(): Promise<LegacyAchievement[]> {
 
 async function getHistoricalDocuments(): Promise<HistoricalDocument[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/historical-documents`, {
+    const baseUrl = getBaseUrl()
+    const res = await fetch(`${baseUrl}/api/historical-documents`, {
       cache: 'no-store'
     })
     if (!res.ok) throw new Error('Failed to fetch historical documents')
