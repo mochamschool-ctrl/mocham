@@ -401,7 +401,7 @@ export default async function HistoryPage() {
                       The college is now situated at No.1 Uwa Street, Uyo, opposite the Ministry of Education (Examinations and Certification Division) in a quiet, secluded part of the capital city.
                     </p>
                     <p className="text-dim-blue-600 dark:text-gray-300">
-                      Visitors are welcome by appointment only, with a minimum 48-hour notice required. Contact: 08037935596 or 07088418182.
+                      Visitors are welcome by appointment only, with a minimum 48-hour notice required. Contact: +2348037935596 or +2349077124866.
             </p>
           </div>
                 </div>

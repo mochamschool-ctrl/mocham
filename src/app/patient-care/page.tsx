@@ -302,7 +302,7 @@ export default async function PatientCarePage() {
                   <div>
                     <h3 className="font-semibold text-lg mb-2">Phone Support</h3>
                     <p className="text-gray-600">
-                      Prefer to speak with someone? Call us at +234-803-793-5596 for personalized assistance.
+                      Prefer to speak with someone? Call us at +2348037935596 for personalized assistance.
                     </p>
                   </div>
                 </div>
@@ -331,7 +331,7 @@ export default async function PatientCarePage() {
                   <div className="mt-8 p-4 bg-medical-green/10 rounded-lg">
                     <h4 className="font-semibold text-gray-900 mb-2">Emergency Contact</h4>
                     <p className="text-sm text-gray-600">
-                      For urgent medical concerns outside office hours, call our emergency line at +234-803-793-5596.
+                      For urgent medical concerns outside office hours, call our emergency line at +2349077124866.
                     </p>
                   </div>
 

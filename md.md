@@ -251,6 +251,8 @@ The MOCHAM courses will be regularly assessed by tests and examinations at least
 (d) 	The MOCHAM Examinations will be conducted in accordance With the general Regulations and Examination time - table of the college and supervised by the MOCHAM Board of Regents.
 (e) 	Finally, during the programme the college deems it fit to make modifications in the pattern of examination: the necessary changes to the regulations shall be recommended by the Education board of the college and approved by board of regents.
 
+0048050369
+Diamond/access bank
 
 HOSPITAL /CLINICS
 Students of 300 level in Nursing/ Midwifery and 500 level medical student classes are required to attend medical, surgical, midwifery and gynecological clinics in batches at the Hospitals provided for the purpose.

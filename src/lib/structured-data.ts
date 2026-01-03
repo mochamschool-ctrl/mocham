@@ -182,7 +182,7 @@ export const generateLocalBusinessSchema = (): LocalBusinessSchema => ({
   image: 'https://www.mocham.org/clinic.jpg',
   '@id': 'https://www.mocham.org',
   url: 'https://www.mocham.org',
-  telephone: '+234-803-793-5596',
+  telephone: '+2348037935596',
   priceRange: '$$',
   address: {
     '@type': 'PostalAddress',

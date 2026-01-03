@@ -43,7 +43,7 @@ export const testStudents: PortalStudent[] = [
     name: 'John Doe',
     firstName: 'John',
     lastName: 'Doe',
-    phone: '+2348021234567',
+    phone: '+2348037935596',
     program: 'Masters in Homeopathic Medicine',
     studentId: 'MOCHAM2024001',
     enrollmentStatus: 'Enrolled'
@@ -54,7 +54,7 @@ export const testStudents: PortalStudent[] = [
     name: 'Jane Smith',
     firstName: 'Jane',
     lastName: 'Smith',
-    phone: '+2348021234568',
+    phone: '+2349077124866',
     program: 'PhD in Homeopathic Medicine',
     studentId: 'MOCHAM2024002',
     enrollmentStatus: 'Enrolled'

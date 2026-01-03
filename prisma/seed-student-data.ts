@@ -13,7 +13,7 @@ async function seedStudentData() {
         email: 'john.doe@mocham.edu.ng',
         firstName: 'John',
         lastName: 'Doe',
-        phone: '+234-803-123-4567',
+        phone: '+2348037935596',
         program: 'Homeopathic Medicine',
         qualifications: 'High School Diploma',
         studentId: 'STU001',

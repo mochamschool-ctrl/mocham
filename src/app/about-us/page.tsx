@@ -338,8 +338,8 @@ export default function AboutUsPage() {
                 <div className="flex items-center space-x-3">
                   <Phone className="h-5 w-5 text-gray-400" />
                   <div>
-                    <p className="text-gray-600">08037935596</p>
-                    <p className="text-gray-600">07088418182</p>
+                    <p className="text-gray-600">+2348037935596</p>
+                    <p className="text-gray-600">+2349077124866</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">

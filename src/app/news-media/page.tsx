@@ -398,7 +398,7 @@ export default async function NewsMediaPage() {
                     </div>
                     <div>
                       <strong className="text-dim-blue-800 dark:text-gray-100">Phone:</strong>
-                      <span className="text-dim-blue-600 dark:text-gray-300 ml-2">+234-803-793-5596</span>
+                      <span className="text-dim-blue-600 dark:text-gray-300 ml-2">+2348037935596</span>
                     </div>
                     <div>
                       <strong className="text-dim-blue-800 dark:text-gray-100">Response Time:</strong>
