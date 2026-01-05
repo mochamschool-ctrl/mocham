@@ -1,38 +1,52 @@
 'use client'
 
+import { useState } from 'react'
+
 export default function AdminLoginPage() {
+  const [email, setEmail] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-    const email = formData.get('email') as string
+    setLoading(true)
+    setError('')
     
+    if (!email || !email.trim()) {
+      setError('Please enter an email address')
+      setLoading(false)
+      return
+    }
+
     try {
       const response = await fetch('/api/admin/check-admin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email })
+        body: JSON.stringify({ email: email.trim() })
       })
 
+      const data = await response.json()
+
       if (response.ok) {
-        const result = await response.json()
-        
         // Store admin session in localStorage
         localStorage.setItem('adminSession', JSON.stringify({
-          email: result.adminUser.email,
-          name: result.adminUser.name,
+          email: data.adminUser.email,
+          name: data.adminUser.name,
           loginTime: Date.now()
         }))
         
         // Redirect to admin dashboard
         window.location.href = '/admin'
       } else {
-        alert('Access denied. This email is not registered as an admin.')
+        setError(data.error || 'Access denied. This email is not registered as an admin.')
       }
     } catch (error) {
       console.error('Login error:', error)
-      alert('An unexpected error occurred')
+      setError('An unexpected error occurred. Please try again.')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -54,17 +68,27 @@ export default function AdminLoginPage() {
                 id="email"
                 name="email"
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                placeholder="admin@mocham.edu"
+                disabled={loading}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                placeholder="mochamschool@gmail.com"
               />
             </div>
 
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm">
+                {error}
+              </div>
+            )}
+
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              disabled={loading}
+              className="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-blue-400 disabled:cursor-not-allowed"
             >
-              Sign In
+              {loading ? 'Signing In...' : 'Sign In'}
             </button>
           </form>
 
