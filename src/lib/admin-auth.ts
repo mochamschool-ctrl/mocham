@@ -2,6 +2,12 @@ import { auth } from './auth'
 import { headers } from 'next/headers'
 import { prisma } from './prisma'
 
+// Allowed admin emails - anyone with these emails can login as admin
+const ALLOWED_ADMIN_EMAILS = [
+  'mochamschool@gmail.com',
+  'inyeneita1@gmail.com'
+]
+
 export async function getAdminSession() {
   const session = await auth.api.getSession({
     headers: await headers()
@@ -11,10 +17,17 @@ export async function getAdminSession() {
     return null
   }
 
+  const email = session.user.email?.toLowerCase().trim()
+  
+  // Check if email is in allowed list
+  if (email && ALLOWED_ADMIN_EMAILS.includes(email)) {
+    return session
+  }
+
   // Check if user email exists in AdminUser table
   const adminUser = await prisma.adminUser.findUnique({
     where: { 
-      email: session.user.email,
+      email: email || '',
       isActive: true
     }
   })
@@ -37,9 +50,17 @@ export async function requireAdminSession() {
 }
 
 export async function isAdminEmail(email: string): Promise<boolean> {
+  const normalizedEmail = email.toLowerCase().trim()
+  
+  // Check if email is in allowed list
+  if (ALLOWED_ADMIN_EMAILS.includes(normalizedEmail)) {
+    return true
+  }
+  
+  // Check if user exists in AdminUser table
   const adminUser = await prisma.adminUser.findUnique({
     where: { 
-      email: email,
+      email: normalizedEmail,
       isActive: true
     }
   })

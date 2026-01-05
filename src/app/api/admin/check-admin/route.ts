@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
+// Allowed admin emails
+const ALLOWED_ADMIN_EMAILS = [
+  'mochamschool@gmail.com',
+  'inyeneita1@gmail.com'
+]
+
 export async function POST(request: NextRequest) {
   try {
     const { email } = await request.json()
@@ -12,18 +18,44 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const adminUser = await prisma.adminUser.findUnique({
-      where: { 
-        email: email,
-        isActive: true
-      }
-    })
+    // Check if email is in the allowed list
+    const normalizedEmail = email.toLowerCase().trim()
+    const isAllowedEmail = ALLOWED_ADMIN_EMAILS.includes(normalizedEmail)
 
-    if (!adminUser) {
+    if (!isAllowedEmail) {
       return NextResponse.json(
         { error: 'Not an admin user' },
         { status: 403 }
       )
+    }
+
+    // Find or create admin user
+    let adminUser = await prisma.adminUser.findUnique({
+      where: { email: normalizedEmail }
+    })
+
+    // If admin user doesn't exist, create it
+    if (!adminUser) {
+      const nameParts = normalizedEmail.split('@')[0].split('.')
+      const firstName = nameParts[0] || 'Admin'
+      const lastName = nameParts.slice(1).join(' ') || 'User'
+      const fullName = `${firstName.charAt(0).toUpperCase() + firstName.slice(1)} ${lastName.charAt(0).toUpperCase() + lastName.slice(1)}`
+
+      adminUser = await prisma.adminUser.create({
+        data: {
+          email: normalizedEmail,
+          name: fullName,
+          firstName: firstName.charAt(0).toUpperCase() + firstName.slice(1),
+          lastName: lastName.charAt(0).toUpperCase() + lastName.slice(1),
+          isActive: true
+        }
+      })
+    } else if (!adminUser.isActive) {
+      // Reactivate if previously deactivated
+      adminUser = await prisma.adminUser.update({
+        where: { id: adminUser.id },
+        data: { isActive: true }
+      })
     }
 
     return NextResponse.json({ 
