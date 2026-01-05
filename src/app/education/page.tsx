@@ -10,7 +10,9 @@ import {
   CheckCircle,
   Calendar,
   Clock,
-  MapPin
+  MapPin,
+  CreditCard,
+  Building2
 } from "lucide-react"
 import Link from "next/link"
 import HeroCarousel from "@/components/hero-carousel"
@@ -325,6 +327,76 @@ export default async function EducationPage() {
                 </p>
               </CardContent>
             </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Bank Account Information */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Payment Information
+              </h2>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                Make payments directly to our bank accounts for tuition and fees
+              </p>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card className="clean-card shadow-lg">
+                <CardContent className="p-8">
+                  <div className="flex items-center space-x-3 mb-6">
+                    <div className="w-12 h-12 bg-ucsf-blue rounded-lg flex items-center justify-center">
+                      <Building2 className="h-6 w-6 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900">First Bank Nigeria</h3>
+                  </div>
+                  <div className="space-y-4">
+                    <div>
+                      <div className="flex items-center space-x-2 mb-2">
+                        <CreditCard className="h-5 w-5 text-gray-500" />
+                        <span className="text-sm font-medium text-gray-600">Account Number</span>
+                      </div>
+                      <p className="text-2xl font-mono font-bold text-ucsf-blue">2008299882</p>
+                    </div>
+                    <div className="pt-4 border-t border-gray-200">
+                      <p className="text-sm text-gray-600">Account Name:</p>
+                      <p className="text-base font-semibold text-gray-900">Modern College of Homeopathy Medicine</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="clean-card shadow-lg">
+                <CardContent className="p-8">
+                  <div className="flex items-center space-x-3 mb-6">
+                    <div className="w-12 h-12 bg-medical-green rounded-lg flex items-center justify-center">
+                      <Building2 className="h-6 w-6 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900">Diamond/Access Bank</h3>
+                  </div>
+                  <div className="space-y-4">
+                    <div>
+                      <div className="flex items-center space-x-2 mb-2">
+                        <CreditCard className="h-5 w-5 text-gray-500" />
+                        <span className="text-sm font-medium text-gray-600">Account Number</span>
+                      </div>
+                      <p className="text-2xl font-mono font-bold text-medical-green">0048050369</p>
+                    </div>
+                    <div className="pt-4 border-t border-gray-200">
+                      <p className="text-sm text-gray-600">Account Name:</p>
+                      <p className="text-base font-semibold text-gray-900">Modern College of Homeopathy</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+            <div className="mt-8 text-center">
+              <p className="text-sm text-gray-600">
+                After making payment, please send proof of payment to <a href="mailto:Mochamschool@gmail.com" className="text-ucsf-blue hover:underline font-semibold">Mochamschool@gmail.com</a>
+              </p>
+            </div>
           </div>
         </div>
       </section>

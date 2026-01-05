@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram } from "lucide-react"
+import { Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram, CreditCard, Building2 } from "lucide-react"
 import Image from "next/image"
 
 const Footer = () => {
@@ -73,6 +73,42 @@ const Footer = () => {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Bank Account Information */}
+        <div className="border-t border-gray-800 mt-8 pt-8">
+          <h4 className="font-semibold text-lg mb-4">Bank Account Details</h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-gray-800 rounded-lg p-4">
+              <div className="flex items-center space-x-3 mb-3">
+                <Building2 className="h-5 w-5 text-medical-green" />
+                <h5 className="font-semibold text-white">First Bank Nigeria</h5>
+              </div>
+              <div className="space-y-2 text-sm">
+                <div className="flex items-center space-x-2">
+                  <CreditCard className="h-4 w-4 text-gray-400" />
+                  <span className="text-gray-300">Account Number:</span>
+                  <span className="text-white font-mono font-semibold">2008299882</span>
+                </div>
+                <p className="text-gray-400 text-xs">Modern College of Homeopathy Medicine</p>
+              </div>
+            </div>
+            <div className="bg-gray-800 rounded-lg p-4">
+              <div className="flex items-center space-x-3 mb-3">
+                <Building2 className="h-5 w-5 text-medical-green" />
+                <h5 className="font-semibold text-white">Diamond/Access Bank</h5>
+              </div>
+              <div className="space-y-2 text-sm">
+                <div className="flex items-center space-x-2">
+                  <CreditCard className="h-4 w-4 text-gray-400" />
+                  <span className="text-gray-300">Account Number:</span>
+                  <span className="text-white font-mono font-semibold">0048050369</span>
+                </div>
+                <p className="text-gray-400 text-xs">Modern College of Homeopathy</p>
+              </div>
+            </div>
+          </div>
+        </div>
         </div>
 
         {/* Bottom Bar */}
