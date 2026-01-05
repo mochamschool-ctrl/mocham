@@ -1,22 +1,32 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [isMobile, setIsMobile] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
-    // Check if mobile device
-    const checkMobile = () => {
-      const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera
-      const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase())
-      setIsMobile(isMobileDevice)
+    // Check if already logged in
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        const adminSession = localStorage.getItem('adminSession')
+        if (adminSession) {
+          const sessionData = JSON.parse(adminSession)
+          const isExpired = sessionData.loginTime && (Date.now() - sessionData.loginTime > 24 * 60 * 60 * 1000)
+          if (!isExpired && sessionData.email) {
+            // Already logged in, redirect to admin
+            router.push('/admin')
+          }
+        }
+      }
+    } catch (error) {
+      // Ignore errors, just continue with login
     }
-    checkMobile()
-  }, [])
+  }, [router])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -41,36 +51,93 @@ export default function AdminLoginPage() {
         credentials: 'same-origin'
       })
 
-      const data = await response.json()
-
-      if (response.ok && data.adminUser) {
+      // Check if response is ok first
+      if (!response.ok) {
+        let errorMessage = 'Access denied. This email is not registered as an admin.'
         try {
-          // Store admin session in localStorage
-          if (typeof window !== 'undefined' && window.localStorage) {
-            localStorage.setItem('adminSession', JSON.stringify({
-              email: data.adminUser.email,
-              name: data.adminUser.name,
-              loginTime: Date.now()
-            }))
-            
-            // Use window.location.replace for better mobile compatibility
-            window.location.replace('/admin')
-          } else {
-            setError('LocalStorage is not available. Please enable it in your browser settings.')
-            setLoading(false)
-          }
-        } catch (storageError) {
-          console.error('Storage error:', storageError)
+          const errorData = await response.json()
+          errorMessage = errorData.error || errorMessage
+        } catch {
+          // If JSON parsing fails, use default message
+        }
+        setError(errorMessage)
+        setLoading(false)
+        return false
+      }
+
+      // Parse response data
+      let data
+      try {
+        data = await response.json()
+      } catch (parseError) {
+        console.error('Failed to parse response:', parseError)
+        setError('Invalid response from server. Please try again.')
+        setLoading(false)
+        return false
+      }
+
+      // Check if adminUser exists in response
+      if (!data || !data.adminUser) {
+        setError('Invalid response from server. Please try again.')
+        setLoading(false)
+        return false
+      }
+
+      // Store admin session in localStorage
+      try {
+        if (typeof window === 'undefined' || !window.localStorage) {
+          setError('LocalStorage is not available. Please enable it in your browser settings.')
+          setLoading(false)
+          return false
+        }
+
+        const sessionData = {
+          email: data.adminUser.email,
+          name: data.adminUser.name || data.adminUser.email.split('@')[0],
+          loginTime: Date.now()
+        }
+
+        localStorage.setItem('adminSession', JSON.stringify(sessionData))
+        
+        // Verify it was saved
+        const saved = localStorage.getItem('adminSession')
+        if (!saved) {
           setError('Failed to save session. Please try again.')
           setLoading(false)
+          return false
         }
-      } else {
-        setError(data.error || 'Access denied. This email is not registered as an admin.')
+
+        console.log('Session saved successfully, redirecting...')
+        
+        // Use Next.js router for client-side navigation (better for mobile)
+        // Add a small delay to ensure localStorage is committed
+        setTimeout(() => {
+          try {
+            console.log('Attempting router.push to /admin')
+            router.push('/admin')
+            
+            // Fallback to window.location if router.push doesn't work within 1 second
+            setTimeout(() => {
+              if (window.location.pathname !== '/admin' && window.location.pathname !== '/admin/') {
+                console.log('Router.push did not redirect, using window.location as fallback')
+                window.location.href = '/admin'
+              }
+            }, 1000)
+          } catch (routerError) {
+            console.error('Router error:', routerError)
+            // Fallback to window.location
+            window.location.href = '/admin'
+          }
+        }, 200)
+        
+      } catch (storageError: any) {
+        console.error('Storage error:', storageError)
+        setError(`Failed to save session: ${storageError.message || 'Unknown error'}. Please try again.`)
         setLoading(false)
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Login error:', error)
-      setError('An unexpected error occurred. Please check your internet connection and try again.')
+      setError(`An unexpected error occurred: ${error.message || 'Please check your internet connection and try again.'}`)
       setLoading(false)
     }
     
@@ -121,6 +188,13 @@ export default function AdminLoginPage() {
               type="submit"
               disabled={loading || !email.trim()}
               className="w-full bg-blue-600 text-white px-4 py-3 text-base font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-blue-400 disabled:cursor-not-allowed active:bg-blue-800 touch-manipulation"
+              onClick={(e) => {
+                // Prevent any default button behavior
+                if (loading || !email.trim()) {
+                  e.preventDefault()
+                  e.stopPropagation()
+                }
+              }}
             >
               {loading ? 'Signing In...' : 'Sign In'}
             </button>

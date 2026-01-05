@@ -24,14 +24,26 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
     // Check for admin session in localStorage
     const checkSession = () => {
       try {
+        if (typeof window === 'undefined' || !window.localStorage) {
+          setSession(null)
+          setLoading(false)
+          return
+        }
+
         const adminSession = localStorage.getItem('adminSession')
         if (adminSession) {
-          const sessionData = JSON.parse(adminSession)
-          // Check if session is not expired (24 hours)
-          const isExpired = Date.now() - sessionData.loginTime > 24 * 60 * 60 * 1000
-          if (!isExpired) {
-            setSession(sessionData)
-          } else {
+          try {
+            const sessionData = JSON.parse(adminSession)
+            // Check if session is not expired (24 hours)
+            const isExpired = sessionData.loginTime && (Date.now() - sessionData.loginTime > 24 * 60 * 60 * 1000)
+            if (!isExpired && sessionData.email) {
+              setSession(sessionData)
+            } else {
+              localStorage.removeItem('adminSession')
+              setSession(null)
+            }
+          } catch (parseError) {
+            console.error('Failed to parse session data:', parseError)
             localStorage.removeItem('adminSession')
             setSession(null)
           }
@@ -40,7 +52,9 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
         }
       } catch (error) {
         console.error('Session check failed:', error)
-        localStorage.removeItem('adminSession')
+        if (typeof window !== 'undefined' && window.localStorage) {
+          localStorage.removeItem('adminSession')
+        }
         setSession(null)
       } finally {
         setLoading(false)
@@ -48,6 +62,19 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     checkSession()
+    
+    // Also listen for storage events (for cross-tab synchronization)
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'adminSession') {
+        checkSession()
+      }
+    }
+    
+    window.addEventListener('storage', handleStorageChange)
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange)
+    }
   }, [])
 
   const logout = () => {
