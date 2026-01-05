@@ -109,7 +109,6 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        </div>
 
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-12 pt-8">
