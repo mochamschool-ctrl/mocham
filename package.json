@@ -18,6 +18,7 @@
     "db:fetch-and-analyze": "tsx scripts/fetch-and-analyze-db.ts",
     "db:clean-empty": "tsx scripts/clean-empty-collections.ts",
     "db:populate-gallery": "tsx scripts/populate-gallery.ts",
+    "db:populate-gallery-az": "tsx scripts/populate-gallery-az.ts",
     "db:populate-historical-gallery": "tsx scripts/populate-historical-gallery.ts",
     "db:update-historical-journey": "tsx scripts/update-historical-journey.ts",
     "db:setup-admin-users": "tsx scripts/setup-admin-users.ts",
