@@ -57,16 +57,14 @@ async function updateHistoricalJourney() {
   
   // Titles and descriptions for each image
   const imageData = [
-    { number: 36, title: 'Historical Moment - 1982', description: 'Early days of MOCHAM establishment' },
-    { number: 37, title: 'Campus Development', description: 'Infrastructure development in the 1980s' },
-    { number: 38, title: 'Academic Excellence', description: 'Students and faculty in early years' },
-    { number: 39, title: 'Medical Training', description: 'Hands-on clinical training sessions' },
-    { number: 40, title: 'Graduation Ceremony', description: 'Celebrating academic achievements' },
-    { number: 41, title: 'Campus Facilities', description: 'State-of-the-art educational infrastructure' },
-    { number: 1, title: 'Founding Years', description: 'The beginning of our journey in homeopathic medicine' },
-    { number: 20, title: 'Student Life', description: 'Vibrant campus activities and student engagement' },
-    { number: 24, title: 'Research Excellence', description: 'Pioneering research in alternative medicine' },
-    { number: 30, title: 'International Recognition', description: 'Global achievements and partnerships' }
+    { number: 36, title: 'Campus Life', description: 'Vibrant campus activities and facilities' },
+    { number: 37, title: 'Academic Excellence', description: 'Students and faculty in learning environments' },
+    { number: 38, title: 'Medical Training', description: 'Hands-on medical education and clinical practice' },
+    { number: 39, title: 'Graduation Ceremonies', description: 'Celebrating academic achievements' },
+    { number: 40, title: 'Campus Facilities', description: 'State-of-the-art educational infrastructure' },
+    { number: 41, title: 'Student Activities', description: 'Student life and extracurricular activities' },
+    { number: 42, title: 'Medical Practice', description: 'Clinical training and patient care' },
+    { number: 43, title: 'Historical Moments', description: 'Memorable events from our history' }
   ]
 
   console.log('📸 Creating new historical documents...')
@@ -76,7 +74,7 @@ async function updateHistoricalJourney() {
     const imageUrl = `/new/${imageInfo.number}.png`
     
     // Estimate year based on image number (spreading from 1982 to 2024)
-    const year = 1982 + Math.floor((imageInfo.number - 1) / 50 * 42)
+    const year = 2023 + Math.floor((imageInfo.number - 1) / 50 * 42)
     
     await prisma.historicalDocument.create({
       data: {

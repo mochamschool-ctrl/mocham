@@ -55,6 +55,96 @@ export default function AboutUsPage() {
         description="Established in 1982 by Dr. Effiong Udo Umoren, we are the first and leading institution dedicated to homeopathic and alternative medicine education in Nigeria."
       />
 
+      {/* Board of Directors */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">
+              Board of Directors/Regents
+            </h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <Card className="border-0 shadow-lg">
+                <CardContent className="p-6">
+                  <h3 className="font-bold text-lg text-gray-900 mb-2">Chief Medical Director/Founder</h3>
+                  <p className="text-medical-blue font-semibold mb-2">Dr. E. U. Umoren</p>
+                  <p className="text-sm text-gray-600">
+                    MD, D.H.M., N.D., D.SC., D. B.M., Ph.D (LOND).; FSCU., F.I.A.Sc. Past founder and Grand Patron ANHMA
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-0 shadow-lg">
+                <CardContent className="p-6">
+                  <h3 className="font-bold text-lg text-gray-900 mb-2">Dean/Provost</h3>
+                  <p className="text-medical-blue font-semibold mb-2">Dr. Edem E. Umoren</p>
+                  <p className="text-sm text-gray-600">
+                    DH.MS., EHM., Bsc [Uniuyo] M.I.H.M.F. (INDIA)., M.A.N.H.M.A
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-0 shadow-lg">
+                <CardContent className="p-6">
+                  <h3 className="font-bold text-lg text-gray-900 mb-2">Patron/Director of Disciplinary and Ethics</h3>
+                  <h4 className="text-gray-700 font-semibold mb-2">Chairman Governing Council</h4>
+                  <p className="text-medical-blue font-semibold mb-2">Dr. B.A. UDOFIA., (JP)</p>
+                  <p className="text-sm text-gray-600">
+                    D.H.M, N.D., D.SC. (LOND)
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-0 shadow-lg">
+                <CardContent className="p-6">
+                  <h3 className="font-bold text-lg text-gray-900 mb-2">Director of Finance</h3>
+                  <p className="text-medical-blue font-semibold mb-2">Mrs. MARIA PATRICK UMOH</p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-0 shadow-lg">
+                <CardContent className="p-6">
+                  <h3 className="font-bold text-lg text-gray-900 mb-2">Director of Publicity</h3>
+                  <p className="text-medical-blue font-semibold mb-2">Dr. Micheal Ekwere</p>
+                  <p className="text-sm text-gray-600">
+                    Dsc. ND
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-0 shadow-lg">
+                <CardContent className="p-6">
+                  <h3 className="font-bold text-lg text-gray-900 mb-2">Director of Research and Strategy</h3>
+                  <p className="text-medical-blue font-semibold mb-2">DR. Linus Inyang</p>
+                  <p className="text-sm text-gray-600">
+                    D.H.M.S., M.A.N.H.N.A
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-0 shadow-lg">
+                <CardContent className="p-6">
+                  <h3 className="font-bold text-lg text-gray-900 mb-2">Director of Academic Affairs</h3>
+                  <p className="text-medical-blue font-semibold mb-2">Prof. Lawrence Usip</p>
+                  <p className="text-sm text-gray-600">
+                    (Uniport)
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-0 shadow-lg">
+                <CardContent className="p-6">
+                  <h3 className="font-bold text-lg text-gray-900 mb-2">Director of Alternative Nursing and Midwifery Affairs</h3>
+                  <p className="text-medical-blue font-semibold mb-2">Abigail Okon Eyo</p>
+                  <p className="text-sm text-gray-600">
+                    SRN
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Mission, Vision, Values */}
       <section className="py-20">
         <div className="container mx-auto px-4">
@@ -461,96 +551,6 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      {/* Board of Directors */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">
-              Board of Directors/Regents
-            </h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <Card className="border-0 shadow-lg">
-                <CardContent className="p-6">
-                  <h3 className="font-bold text-lg text-gray-900 mb-2">Chief Medical Director/Founder</h3>
-                  <p className="text-medical-blue font-semibold mb-2">Dr. E. U. Umoren</p>
-                  <p className="text-sm text-gray-600">
-                    MD, D.H.M., N.D., D.SC., D. B.M., Ph.D (LOND).; FSCU., F.I.A.Sc. Past founder and Grand Patron ANHMA
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-0 shadow-lg">
-                <CardContent className="p-6">
-                  <h3 className="font-bold text-lg text-gray-900 mb-2">Dean/Provost</h3>
-                  <p className="text-medical-blue font-semibold mb-2">Dr. Edem E. Umoren</p>
-                  <p className="text-sm text-gray-600">
-                    DH.MS., EHM., Bsc [Uniuyo] M.I.H.M.F. (INDIA)., M.A.N.H.M.A
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-0 shadow-lg">
-                <CardContent className="p-6">
-                  <h3 className="font-bold text-lg text-gray-900 mb-2">Patron/Director of Disciplinary and Ethics</h3>
-                  <h4 className="text-gray-700 font-semibold mb-2">Chairman Governing Council</h4>
-                  <p className="text-medical-blue font-semibold mb-2">Dr. B.A. UDOFIA., (JP)</p>
-                  <p className="text-sm text-gray-600">
-                    D.H.M, N.D., D.SC. (LOND)
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-0 shadow-lg">
-                <CardContent className="p-6">
-                  <h3 className="font-bold text-lg text-gray-900 mb-2">Director of Finance</h3>
-                  <p className="text-medical-blue font-semibold mb-2">Mrs. MARIA PATRICK UMOH</p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-0 shadow-lg">
-                <CardContent className="p-6">
-                  <h3 className="font-bold text-lg text-gray-900 mb-2">Director of Publicity</h3>
-                  <p className="text-medical-blue font-semibold mb-2">Dr. Micheal Ekwere</p>
-                  <p className="text-sm text-gray-600">
-                    Dsc. ND
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-0 shadow-lg">
-                <CardContent className="p-6">
-                  <h3 className="font-bold text-lg text-gray-900 mb-2">Director of Research and Strategy</h3>
-                  <p className="text-medical-blue font-semibold mb-2">DR. Linus Inyang</p>
-                  <p className="text-sm text-gray-600">
-                    D.H.M.S., M.A.N.H.N.A
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-0 shadow-lg">
-                <CardContent className="p-6">
-                  <h3 className="font-bold text-lg text-gray-900 mb-2">Director of Academic Affairs</h3>
-                  <p className="text-medical-blue font-semibold mb-2">Prof. Lawrence Usip</p>
-                  <p className="text-sm text-gray-600">
-                    (Uniport)
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-0 shadow-lg">
-                <CardContent className="p-6">
-                  <h3 className="font-bold text-lg text-gray-900 mb-2">Director of Alternative Nursing and Midwifery Affairs</h3>
-                  <p className="text-medical-blue font-semibold mb-2">Abigail Okon Eyo</p>
-                  <p className="text-sm text-gray-600">
-                    SRN
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
- 
     </MainLayout>
   )
 }
