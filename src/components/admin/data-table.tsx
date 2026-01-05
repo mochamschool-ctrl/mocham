@@ -35,7 +35,13 @@ export default function DataTable({
   const filteredData = data.filter(item => {
     if (!searchTerm) return true
     return searchFields.some(field => {
-      const value = item[field]
+      // Handle nested fields like 'user.name' or 'user.email'
+      const fieldParts = field.split('.')
+      let value = item
+      for (const part of fieldParts) {
+        value = value?.[part]
+        if (value === null || value === undefined) break
+      }
       return value && value.toString().toLowerCase().includes(searchTerm.toLowerCase())
     })
   })
@@ -107,14 +113,24 @@ export default function DataTable({
           <tbody>
             {sortedData.map((row, index) => (
               <tr key={row.id || index} className="border-b hover:bg-gray-50">
-                {columns.map((column) => (
-                  <td key={column.key} className="py-3 px-4">
-                    {column.render 
-                      ? column.render(row[column.key], row)
-                      : row[column.key]
-                    }
-                  </td>
-                ))}
+                {columns.map((column) => {
+                  // Handle nested fields like 'user.name'
+                  const fieldParts = column.key.split('.')
+                  let value = row
+                  for (const part of fieldParts) {
+                    value = value?.[part]
+                    if (value === null || value === undefined) break
+                  }
+                  
+                  return (
+                    <td key={column.key} className="py-3 px-4">
+                      {column.render 
+                        ? column.render(value, row)
+                        : value !== null && value !== undefined ? String(value) : 'N/A'
+                      }
+                    </td>
+                  )
+                })}
                 <td className="py-3 px-4">
                   <div className="flex gap-2">
                     <Link href={`/admin/${modelName.toLowerCase()}/${row.id}`}>

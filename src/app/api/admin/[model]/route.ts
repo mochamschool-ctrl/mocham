@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
 const modelMap: Record<string, any> = {
+  // Main content models
   programs: prisma.program,
   services: prisma.service,
   doctors: prisma.doctor,
@@ -10,25 +11,41 @@ const modelMap: Record<string, any> = {
   applications: prisma.application,
   appointments: prisma.appointment,
   contact_messages: prisma.contactMessage,
+  contactmessages: prisma.contactMessage, // Backward compatibility
   publications: prisma.publication,
   research_studies: prisma.researchStudy,
+  researchstudies: prisma.researchStudy, // Backward compatibility
   collaborations: prisma.collaboration,
   achievements: prisma.achievement,
   history_events: prisma.historyEvent,
+  historyevents: prisma.historyEvent, // Backward compatibility
   college_history_events: prisma.collegeHistoryEvent,
+  collegehistoryevents: prisma.collegeHistoryEvent, // Backward compatibility
   academic_programs_history: prisma.academicProgramHistory,
+  academicprogramshistory: prisma.academicProgramHistory, // Backward compatibility
   facility_history: prisma.facilityHistory,
+  facilityhistory: prisma.facilityHistory, // Backward compatibility
   legacy_achievements: prisma.legacyAchievement,
+  legacyachievements: prisma.legacyAchievement, // Backward compatibility
   historical_documents: prisma.historicalDocument,
+  historicaldocuments: prisma.historicalDocument, // Backward compatibility
   founder_info: prisma.founderInfo,
-  founderinfo: prisma.founderInfo,
+  founderinfo: prisma.founderInfo, // Backward compatibility
+  // User management
   users: prisma.user,
   admin_users: prisma.adminUser,
+  adminusers: prisma.adminUser, // Backward compatibility
+  // Student data
   student_grades: prisma.studentGrade,
+  studentgrades: prisma.studentGrade, // Backward compatibility
   student_certificates: prisma.studentCertificate,
+  studentcertificates: prisma.studentCertificate, // Backward compatibility
   student_schedules: prisma.studentSchedule,
+  studentschedules: prisma.studentSchedule, // Backward compatibility
+  // Course management
   courses: prisma.course,
   course_enrollments: prisma.courseEnrollment,
+  courseenrollments: prisma.courseEnrollment, // Backward compatibility
 }
 
 async function verifyAdminSession(request: NextRequest) {
