@@ -47,28 +47,56 @@ const prisma = new PrismaClient()
 async function populateGalleryAZ() {
   console.log('🖼️  Populating gallery with a-z and aa-ee images...\n')
 
-  // Generate a-z image names
-  const azImages: string[] = []
-  for (let i = 0; i < 26; i++) {
-    const letter = String.fromCharCode(97 + i) // 'a' to 'z'
-    azImages.push(`${letter}.jpg`)
+  // Check which images actually exist in public/new folder
+  const newDir = path.join(process.cwd(), 'public', 'new')
+  
+  if (!fs.existsSync(newDir)) {
+    console.error('❌ Error: public/new directory not found!')
+    process.exit(1)
   }
 
-  // Generate aa-ee image names
+  // Get all JPG files from the directory
+  const allFiles = fs.readdirSync(newDir)
+  const jpgFiles = allFiles.filter(file => 
+    file.toLowerCase().endsWith('.jpg')
+  )
+
+  // Filter for a-z and aa-ee images
+  const azImages: string[] = []
   const aaeeImages: string[] = []
-  const firstLetters = ['a', 'b', 'c', 'd', 'e']
-  const secondLetters = ['a', 'b', 'c', 'd', 'e']
   
-  for (const first of firstLetters) {
-    for (const second of secondLetters) {
-      aaeeImages.push(`${first}${second}.jpg`)
+  for (const file of jpgFiles) {
+    const nameWithoutExt = file.replace('.jpg', '').toLowerCase()
+    
+    // Check if it's a single letter (a-z)
+    if (nameWithoutExt.length === 1 && nameWithoutExt >= 'a' && nameWithoutExt <= 'z') {
+      azImages.push(file)
+    }
+    // Check if it's aa-ee pattern (two letters, both a-e)
+    else if (nameWithoutExt.length === 2 && 
+             nameWithoutExt[0] >= 'a' && nameWithoutExt[0] <= 'e' &&
+             nameWithoutExt[1] >= 'a' && nameWithoutExt[1] <= 'e') {
+      aaeeImages.push(file)
     }
   }
+
+  // Sort a-z images
+  azImages.sort((a, b) => a.localeCompare(b))
+  
+  // Sort aa-ee images
+  aaeeImages.sort((a, b) => {
+    const aName = a.replace('.jpg', '').toLowerCase()
+    const bName = b.replace('.jpg', '').toLowerCase()
+    if (aName[0] !== bName[0]) {
+      return aName[0].localeCompare(bName[0])
+    }
+    return aName[1].localeCompare(bName[1])
+  })
 
   // Combine all image names
   const allImages = [...azImages, ...aaeeImages]
   
-  console.log(`📸 Found ${allImages.length} images to add:`)
+  console.log(`📸 Found ${allImages.length} images in public/new:`)
   console.log(`   - a-z: ${azImages.length} images`)
   console.log(`   - aa-ee: ${aaeeImages.length} images\n`)
 
@@ -81,7 +109,7 @@ async function populateGalleryAZ() {
 
   for (let i = 0; i < allImages.length; i++) {
     const imageName = allImages[i]
-    const imageUrl = `/${imageName}`
+    const imageUrl = `/new/${imageName}`
     
     // Determine category (distribute evenly)
     const categoryIndex = i % categories.length
