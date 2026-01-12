@@ -217,7 +217,7 @@ export default async function HomePage() {
             <div className="max-w-2xl">
               <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-lg p-6 sm:p-8 lg:p-12 shadow-xl">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 leading-tight text-dim-blue-800 dark:text-gray-100">
-                  Modern College of Homeopathy and Alternative Medicine
+                  Modern College of Homeopathy and Other Forms of Alternative Medicine
                 </h1>
                 <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 text-dim-blue-600 dark:text-gray-300 leading-relaxed">
                   To care for the future, we must safeguard research and education in alternative medicine.
