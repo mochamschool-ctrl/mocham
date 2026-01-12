@@ -61,9 +61,10 @@ async function populateGalleryAZ() {
     file.toLowerCase().endsWith('.jpg')
   )
 
-  // Filter for a-z and aa-ee images
+  // Filter for a-z and double letters (aa, bb, cc, dd, ee)
   const azImages: string[] = []
-  const aaeeImages: string[] = []
+  const doubleLetterImages: string[] = []
+  const allowedDoubleLetters = ['aa', 'bb', 'cc', 'dd', 'ee']
   
   for (const file of jpgFiles) {
     const nameWithoutExt = file.replace('.jpg', '').toLowerCase()
@@ -72,33 +73,29 @@ async function populateGalleryAZ() {
     if (nameWithoutExt.length === 1 && nameWithoutExt >= 'a' && nameWithoutExt <= 'z') {
       azImages.push(file)
     }
-    // Check if it's aa-ee pattern (two letters, both a-e)
-    else if (nameWithoutExt.length === 2 && 
-             nameWithoutExt[0] >= 'a' && nameWithoutExt[0] <= 'e' &&
-             nameWithoutExt[1] >= 'a' && nameWithoutExt[1] <= 'e') {
-      aaeeImages.push(file)
+    // Check if it's one of the allowed double letters (aa, bb, cc, dd, ee)
+    else if (nameWithoutExt.length === 2 && allowedDoubleLetters.includes(nameWithoutExt)) {
+      doubleLetterImages.push(file)
     }
   }
 
   // Sort a-z images
   azImages.sort((a, b) => a.localeCompare(b))
   
-  // Sort aa-ee images
-  aaeeImages.sort((a, b) => {
+  // Sort double letter images (aa, bb, cc, dd, ee)
+  doubleLetterImages.sort((a, b) => {
+    const order = ['aa', 'bb', 'cc', 'dd', 'ee']
     const aName = a.replace('.jpg', '').toLowerCase()
     const bName = b.replace('.jpg', '').toLowerCase()
-    if (aName[0] !== bName[0]) {
-      return aName[0].localeCompare(bName[0])
-    }
-    return aName[1].localeCompare(bName[1])
+    return order.indexOf(aName) - order.indexOf(bName)
   })
 
   // Combine all image names
-  const allImages = [...azImages, ...aaeeImages]
+  const allImages = [...azImages, ...doubleLetterImages]
   
   console.log(`📸 Found ${allImages.length} images in public/new:`)
   console.log(`   - a-z: ${azImages.length} images`)
-  console.log(`   - aa-ee: ${aaeeImages.length} images\n`)
+  console.log(`   - Double letters (aa, bb, cc, dd, ee): ${doubleLetterImages.length} images\n`)
 
   // Categories for organizing images
   const categories = ['Campus', 'Events', 'Students', 'Faculty', 'General']

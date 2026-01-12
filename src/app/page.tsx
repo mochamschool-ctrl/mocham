@@ -217,7 +217,7 @@ export default async function HomePage() {
             <div className="max-w-2xl">
               <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-lg p-6 sm:p-8 lg:p-12 shadow-xl">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 leading-tight text-dim-blue-800 dark:text-gray-100">
-                  Advancing Alternative Medicine Through Research & Education
+                  Modern College of Homeopathy and Alternative Medicine
                 </h1>
                 <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 text-dim-blue-600 dark:text-gray-300 leading-relaxed">
                   To care for the future, we must safeguard research and education in alternative medicine.
@@ -553,7 +553,7 @@ export default async function HomePage() {
                   </div>
                   <h3 className="text-xl sm:text-2xl font-bold text-white mb-4">Accredited Programs</h3>
                   <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
-                    Our programs are recognized by the National Universities Commission and professional bodies.
+                    Our programs are recognized by the International Body of Homoeopathy and AlternativeMrdicine (IBHAM).
                   </p>
                 </CardContent>
               </Card>
