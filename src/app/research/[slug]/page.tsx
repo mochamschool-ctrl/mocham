@@ -253,8 +253,25 @@ export default async function ResearchArticlePage({ params }: { params: Promise<
               </div>
             )}
 
-            {/* Share Button */}
-            <div className="flex items-center gap-4 mb-8">
+            {/* Download PDF - prominent when a PDF is attached */}
+            {(publication?.pdfUrl || study?.pdfUrl) && (
+              <div className="mb-8 p-4 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-lg">
+                <p className="text-sm font-medium text-blue-900 dark:text-blue-100 mb-2">
+                  Download this research as PDF
+                </p>
+                <a
+                  href={`/api/research/download-pdf?slug=${slug}&type=${publication ? 'publication' : 'study'}`}
+                  className="inline-flex items-center gap-2 text-blue-700 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-100 font-medium"
+                  download
+                >
+                  <Download className="h-5 w-5" />
+                  Download PDF
+                </a>
+              </div>
+            )}
+
+            {/* Share / View Original */}
+            <div className="flex flex-wrap items-center gap-4 mb-8">
               <Button variant="outline" size="sm" className="inline-flex items-center">
                 <Share2 className="h-4 w-4 mr-2" />
                 Share
@@ -264,14 +281,6 @@ export default async function ResearchArticlePage({ params }: { params: Promise<
                   <Button variant="outline" size="sm" className="inline-flex items-center">
                     <ExternalLink className="h-4 w-4 mr-2" />
                     View Original
-                  </Button>
-                </a>
-              )}
-              {(publication?.pdfUrl || study?.pdfUrl) && (
-                <a href={publication?.pdfUrl || study?.pdfUrl || '#'} target="_blank" rel="noopener noreferrer" download>
-                  <Button variant="outline" size="sm" className="inline-flex items-center">
-                    <Download className="h-4 w-4 mr-2" />
-                    Download PDF
                   </Button>
                 </a>
               )}
