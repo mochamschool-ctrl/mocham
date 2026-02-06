@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Card } from '@/components/ui/card'
 
 interface StatsCardProps {
@@ -5,16 +6,16 @@ interface StatsCardProps {
   value: number | string
   icon: string
   description?: string
+  href?: string
   trend?: {
     value: number
     isPositive: boolean
   }
 }
 
-export default function StatsCard({ title, value, icon, description, trend }: StatsCardProps) {
-  return (
-    <Card className="p-6">
-      <div className="flex items-center justify-between">
+export default function StatsCard({ title, value, icon, description, href, trend }: StatsCardProps) {
+  const content = (
+    <div className="flex items-center justify-between">
         <div>
           <p className="text-sm font-medium text-gray-600">{title}</p>
           <p className="text-2xl font-bold text-gray-900">{value}</p>
@@ -29,6 +30,17 @@ export default function StatsCard({ title, value, icon, description, trend }: St
         </div>
         <div className="text-3xl">{icon}</div>
       </div>
-    </Card>
   )
+
+  if (href) {
+    return (
+      <Link href={href}>
+        <Card className="p-6 hover:bg-gray-50 transition-colors cursor-pointer h-full block">
+          {content}
+        </Card>
+      </Link>
+    )
+  }
+
+  return <Card className="p-6">{content}</Card>
 }

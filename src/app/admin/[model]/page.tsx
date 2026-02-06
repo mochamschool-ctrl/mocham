@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import DataTable from '@/components/admin/data-table'
+import { Button } from '@/components/ui/button'
 
 const modelConfigs: Record<string, { columns: any[], searchFields: string[] }> = {
   programs: {
@@ -263,6 +264,23 @@ const modelConfigs: Record<string, { columns: any[], searchFields: string[] }> =
       }
     ],
     searchFields: ['name', 'description', 'website']
+  },
+  gallery: {
+    columns: [
+      { key: 'title', label: 'Title' },
+      { key: 'category', label: 'Category' },
+      { key: 'order', label: 'Order' },
+      { 
+        key: 'isFeatured', 
+        label: 'Featured',
+        render: (value: boolean) => (
+          <span className={`admin-badge ${value ? 'admin-badge-active' : 'admin-badge-inactive'}`}>
+            {value ? 'Yes' : 'No'}
+          </span>
+        )
+      }
+    ],
+    searchFields: ['title', 'description', 'category']
   },
   achievements: {
     columns: [
@@ -709,6 +727,7 @@ export default function ModelPage() {
   const modelName = params.model as string
   const [data, setData] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   useEffect(() => {
     if (modelName) {
@@ -736,8 +755,11 @@ export default function ModelPage() {
     }
   }
 
+  const singularName = modelName.endsWith('s') ? modelName.slice(0, -1).replace(/_/g, ' ') : modelName.replace(/_/g, ' ')
+
   const handleDelete = async (id: string) => {
-    if (confirm(`Are you sure you want to delete this ${modelName.slice(0, -1)}?`)) {
+    if (confirm(`Are you sure you want to delete this ${singularName}?`)) {
+      setErrorMessage(null)
       try {
         const response = await fetch(`/api/admin/${modelName}/${id}`, {
           method: 'DELETE'
@@ -746,11 +768,12 @@ export default function ModelPage() {
         if (response.ok) {
           setData(data.filter(item => item.id !== id))
         } else {
-          alert(`Failed to delete ${modelName.slice(0, -1)}`)
+          const err = await response.json().catch(() => ({}))
+          setErrorMessage(err.error || `Failed to delete ${singularName}`)
         }
       } catch (error) {
         console.error('Delete error:', error)
-        alert(`Failed to delete ${modelName.slice(0, -1)}`)
+        setErrorMessage(`Failed to delete ${singularName}`)
       }
     }
   }
@@ -776,13 +799,60 @@ export default function ModelPage() {
     )
   }
 
+  const displayName = modelName.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+
+  const handleStatusChange = async (id: string, status: string) => {
+    try {
+      const res = await fetch(`/api/admin/${modelName}/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+      })
+      if (res.ok) {
+        setData(data.map(item => item.id === id ? { ...item, status } : item))
+        setErrorMessage(null)
+      } else {
+        const err = await res.json().catch(() => ({}))
+        setErrorMessage(err.error || 'Failed to update status')
+      }
+    } catch {
+      setErrorMessage('Failed to update status')
+    }
+  }
+
+  const getExtraActions = modelName === 'applications' ? (row: any) => (
+    row.status === 'pending' && (
+      <>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => handleStatusChange(row.id, 'approved')}
+          className="text-green-600 hover:text-green-700"
+        >
+          Approve
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => handleStatusChange(row.id, 'rejected')}
+          className="text-red-600 hover:text-red-700"
+        >
+          Reject
+        </Button>
+      </>
+    )
+  ) : undefined
+
   return (
     <DataTable
       data={data}
       columns={config.columns}
-      modelName={modelName.charAt(0).toUpperCase() + modelName.slice(1)}
+      modelName={displayName}
+      modelPath={modelName}
       onDelete={handleDelete}
       searchFields={config.searchFields}
+      error={errorMessage}
+      getExtraActions={getExtraActions}
     />
   )
 }

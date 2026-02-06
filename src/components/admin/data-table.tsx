@@ -15,22 +15,69 @@ interface DataTableProps {
   data: any[]
   columns: Column[]
   modelName: string
+  modelPath?: string
+  singularName?: string
   onDelete?: (id: string) => void
   searchable?: boolean
   searchFields?: string[]
+  pageSize?: number
+  error?: string | null
+  getExtraActions?: (row: any) => React.ReactNode
+}
+
+const DEFAULT_SINGULAR: Record<string, string> = {
+  programs: 'Program',
+  services: 'Service',
+  doctors: 'Doctor',
+  news: 'News',
+  testimonials: 'Testimonial',
+  applications: 'Application',
+  appointments: 'Appointment',
+  contact_messages: 'Contact Message',
+  publications: 'Publication',
+  research_studies: 'Research Study',
+  collaborations: 'Collaboration',
+  achievements: 'Achievement',
+  history_events: 'History Event',
+  college_history_events: 'College History Event',
+  academic_programs_history: 'Academic Program History',
+  facility_history: 'Facility History',
+  legacy_achievements: 'Legacy Achievement',
+  historical_documents: 'Historical Document',
+  founder_info: 'Founder Info',
+  gallery: 'Gallery Image',
+  users: 'Student',
+  admin_users: 'Admin User',
+  student_grades: 'Student Grade',
+  student_certificates: 'Student Certificate',
+  student_schedules: 'Student Schedule',
+  courses: 'Course',
+  course_enrollments: 'Course Enrollment',
 }
 
 export default function DataTable({ 
   data, 
   columns, 
   modelName, 
+  modelPath,
+  singularName,
   onDelete, 
   searchable = true,
-  searchFields = ['title', 'name', 'email']
+  searchFields = ['title', 'name', 'email'],
+  pageSize: initialPageSize = 25,
+  error: externalError,
+  getExtraActions
 }: DataTableProps) {
   const [searchTerm, setSearchTerm] = useState('')
   const [sortField, setSortField] = useState<string | null>(null)
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
+  const [currentPage, setCurrentPage] = useState(1)
+  const [pageSize, setPageSize] = useState(initialPageSize)
+  const [internalError, setInternalError] = useState<string | null>(null)
+  const errorMessage = externalError ?? internalError
+
+  const path = modelPath || modelName.toLowerCase().replace(/\s+/g, '_')
+  const singular = singularName || DEFAULT_SINGULAR[path] || modelName.replace(/s$/, '').replace(/_/g, ' ')
 
   const filteredData = data.filter(item => {
     if (!searchTerm) return true
@@ -66,14 +113,23 @@ export default function DataTable({
     }
   }
 
+  const totalPages = Math.ceil(sortedData.length / pageSize)
+  const paginatedData = sortedData.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+
   return (
     <Card className="p-6">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <h2 className="text-2xl font-bold capitalize">{modelName}</h2>
-        <Link href={`/admin/${modelName.toLowerCase()}/new`}>
-          <Button>Add New {modelName.slice(0, -1)}</Button>
+        <Link href={`/admin/${path}/new`}>
+          <Button>Add New {singular}</Button>
         </Link>
       </div>
+
+      {errorMessage && (
+        <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-md text-sm">
+          {errorMessage}
+        </div>
+      )}
 
       {searchable && (
         <div className="mb-4">
@@ -111,7 +167,7 @@ export default function DataTable({
             </tr>
           </thead>
           <tbody>
-            {sortedData.map((row, index) => (
+            {paginatedData.map((row, index) => (
               <tr key={row.id || index} className="border-b hover:bg-gray-50">
                 {columns.map((column) => {
                   // Handle nested fields like 'user.name'
@@ -132,13 +188,14 @@ export default function DataTable({
                   )
                 })}
                 <td className="py-3 px-4">
-                  <div className="flex gap-2">
-                    <Link href={`/admin/${modelName.toLowerCase()}/${row.id}`}>
+                  <div className="flex flex-wrap gap-2">
+                    <Link href={`/admin/${path}/${row.id}`}>
                       <Button variant="outline" size="sm">View</Button>
                     </Link>
-                    <Link href={`/admin/${modelName.toLowerCase()}/${row.id}/edit`}>
+                    <Link href={`/admin/${path}/${row.id}/edit`}>
                       <Button variant="outline" size="sm">Edit</Button>
                     </Link>
+                    {getExtraActions?.(row)}
                     {onDelete && (
                       <Button 
                         variant="outline" 
@@ -159,7 +216,50 @@ export default function DataTable({
 
       {sortedData.length === 0 && (
         <div className="text-center py-8 text-gray-500">
-          No {modelName.toLowerCase()} found
+          No {path.replace(/_/g, ' ')} found
+        </div>
+      )}
+
+      {sortedData.length > 0 && totalPages > 1 && (
+        <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t pt-4">
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-600">Rows per page:</span>
+            <select
+              value={pageSize}
+              onChange={(e) => {
+                setPageSize(Number(e.target.value))
+                setCurrentPage(1)
+              }}
+              className="border rounded px-2 py-1 text-sm"
+            >
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+            </select>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-600">
+              {(currentPage - 1) * pageSize + 1}-{Math.min(currentPage * pageSize, sortedData.length)} of {sortedData.length}
+            </span>
+            <div className="flex gap-1">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </Button>
+            </div>
+          </div>
         </div>
       )}
     </Card>

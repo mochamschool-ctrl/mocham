@@ -12,10 +12,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { email } = body
     
-    console.log('Admin login attempt:', { email })
-    
     if (!email) {
-      console.log('No email provided')
       return NextResponse.json(
         { error: 'Email is required' },
         { status: 400 }
@@ -24,14 +21,9 @@ export async function POST(request: NextRequest) {
 
     // Check if email is in the allowed list
     const normalizedEmail = email.toLowerCase().trim()
-    console.log('Normalized email:', normalizedEmail)
-    console.log('Allowed emails:', ALLOWED_ADMIN_EMAILS)
-    
     const isAllowedEmail = ALLOWED_ADMIN_EMAILS.includes(normalizedEmail)
-    console.log('Is allowed:', isAllowedEmail)
 
     if (!isAllowedEmail) {
-      console.log('Email not in allowed list')
       return NextResponse.json(
         { error: 'Not an admin user' },
         { status: 403 }
@@ -67,8 +59,6 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    console.log('Admin login successful:', { email: adminUser.email, id: adminUser.id })
-    
     return NextResponse.json({ 
       success: true,
       adminUser: {

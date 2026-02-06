@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
+import FileUploadField from '@/components/admin/file-upload-field'
 
 interface ModelFormProps {
   modelName: string
@@ -101,6 +102,7 @@ const formFields: Record<string, any[]> = {
     { key: 'doi', label: 'DOI', type: 'text' },
     { key: 'url', label: 'URL', type: 'url' },
     { key: 'imageUrl', label: 'Image URL', type: 'url' },
+    { key: 'pdfUrl', label: 'PDF File', type: 'file-upload' },
     { key: 'slug', label: 'Slug', type: 'text', required: true },
     { key: 'tags', label: 'Tags (comma-separated)', type: 'text' },
     { key: 'readingTime', label: 'Reading Time (minutes)', type: 'number' },
@@ -116,6 +118,7 @@ const formFields: Record<string, any[]> = {
     { key: 'participants', label: 'Participants', type: 'number' },
     { key: 'centers', label: 'Centers', type: 'number' },
     { key: 'imageUrl', label: 'Image URL', type: 'url' },
+    { key: 'pdfUrl', label: 'PDF File', type: 'file-upload' },
     { key: 'slug', label: 'Slug', type: 'text', required: true },
     { key: 'tags', label: 'Tags (comma-separated)', type: 'text' },
     { key: 'readingTime', label: 'Reading Time (minutes)', type: 'number' },
@@ -127,6 +130,14 @@ const formFields: Record<string, any[]> = {
     { key: 'logo', label: 'Logo URL', type: 'url' },
     { key: 'website', label: 'Website', type: 'url' },
     { key: 'isActive', label: 'Active', type: 'checkbox' }
+  ],
+  gallery: [
+    { key: 'title', label: 'Title', type: 'text', required: true },
+    { key: 'description', label: 'Description', type: 'textarea' },
+    { key: 'imageUrl', label: 'Image URL', type: 'url', required: true },
+    { key: 'category', label: 'Category', type: 'select', options: ['Campus', 'Events', 'Students', 'Faculty', 'General'], required: true },
+    { key: 'isFeatured', label: 'Featured', type: 'checkbox' },
+    { key: 'order', label: 'Order', type: 'number' }
   ],
   achievements: [
     { key: 'title', label: 'Title', type: 'text', required: true },
@@ -300,12 +311,71 @@ const formFields: Record<string, any[]> = {
     { key: 'firstName', label: 'First Name', type: 'text' },
     { key: 'lastName', label: 'Last Name', type: 'text' },
     { key: 'isActive', label: 'Active', type: 'checkbox' }
+  ],
+  student_grades: [
+    { key: 'userId', label: 'Student', type: 'select-api', optionsFromApi: 'users', required: true },
+    { key: 'courseName', label: 'Course Name', type: 'text', required: true },
+    { key: 'courseCode', label: 'Course Code', type: 'text', required: true },
+    { key: 'semester', label: 'Semester', type: 'text', required: true },
+    { key: 'academicYear', label: 'Academic Year', type: 'text', required: true },
+    { key: 'grade', label: 'Grade', type: 'select', options: ['A', 'B', 'C', 'D', 'F', 'P', 'NP'], required: true },
+    { key: 'score', label: 'Score', type: 'number' },
+    { key: 'maxScore', label: 'Max Score', type: 'number' },
+    { key: 'comments', label: 'Comments', type: 'textarea' }
+  ],
+  student_certificates: [
+    { key: 'userId', label: 'Student', type: 'select-api', optionsFromApi: 'users', required: true },
+    { key: 'title', label: 'Title', type: 'text', required: true },
+    { key: 'certificateType', label: 'Type', type: 'select', options: ['degree', 'diploma', 'certificate', 'transcript', 'completion'], required: true },
+    { key: 'fileUrl', label: 'File URL', type: 'url', required: true },
+    { key: 'issueDate', label: 'Issue Date', type: 'date', required: true },
+    { key: 'expiryDate', label: 'Expiry Date', type: 'date' },
+    { key: 'isActive', label: 'Active', type: 'checkbox' }
+  ],
+  student_schedules: [
+    { key: 'userId', label: 'Student', type: 'select-api', optionsFromApi: 'users', required: true },
+    { key: 'title', label: 'Title', type: 'text', required: true },
+    { key: 'courseCode', label: 'Course Code', type: 'text' },
+    { key: 'courseName', label: 'Course Name', type: 'text' },
+    { key: 'instructor', label: 'Instructor', type: 'text' },
+    { key: 'location', label: 'Location', type: 'text' },
+    { key: 'startTime', label: 'Start Time', type: 'text', required: true },
+    { key: 'endTime', label: 'End Time', type: 'text', required: true },
+    { key: 'dayOfWeek', label: 'Day of Week', type: 'select', options: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], required: true },
+    { key: 'scheduleType', label: 'Type', type: 'select', options: ['class', 'exam', 'meeting', 'event'], required: true },
+    { key: 'semester', label: 'Semester', type: 'text', required: true },
+    { key: 'academicYear', label: 'Academic Year', type: 'text', required: true },
+    { key: 'isActive', label: 'Active', type: 'checkbox' }
+  ],
+  courses: [
+    { key: 'title', label: 'Title', type: 'text', required: true },
+    { key: 'code', label: 'Code', type: 'text', required: true },
+    { key: 'description', label: 'Description', type: 'textarea' },
+    { key: 'credits', label: 'Credits', type: 'number' },
+    { key: 'duration', label: 'Duration', type: 'text', required: true },
+    { key: 'level', label: 'Level', type: 'select', options: ['beginner', 'intermediate', 'advanced'], required: true },
+    { key: 'category', label: 'Category', type: 'select', options: ['core', 'elective', 'practical'], required: true },
+    { key: 'instructor', label: 'Instructor', type: 'text' },
+    { key: 'prerequisites', label: 'Prerequisites (comma-separated)', type: 'text' },
+    { key: 'semester', label: 'Semester', type: 'text', required: true },
+    { key: 'academicYear', label: 'Academic Year', type: 'text', required: true },
+    { key: 'maxStudents', label: 'Max Students', type: 'number' },
+    { key: 'isActive', label: 'Active', type: 'checkbox' }
+  ],
+  course_enrollments: [
+    { key: 'userId', label: 'Student', type: 'select-api', optionsFromApi: 'users', required: true },
+    { key: 'courseId', label: 'Course', type: 'select-api', optionsFromApi: 'courses', required: true },
+    { key: 'status', label: 'Status', type: 'select', options: ['active', 'completed', 'dropped', 'failed'], required: true },
+    { key: 'finalGrade', label: 'Final Grade', type: 'text' },
+    { key: 'completedAt', label: 'Completed At', type: 'date' }
   ]
 }
 
 export default function ModelForm({ modelName, recordId, initialData }: ModelFormProps) {
   const [formData, setFormData] = useState<any>({})
   const [loading, setLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [apiOptions, setApiOptions] = useState<Record<string, { id: string; label: string }[]>>({})
   const router = useRouter()
 
   const fields = formFields[modelName] || []
@@ -316,9 +386,31 @@ export default function ModelForm({ modelName, recordId, initialData }: ModelFor
     }
   }, [initialData])
 
+  useEffect(() => {
+    const apiFields = fields.filter((f: any) => f.type === 'select-api' && f.optionsFromApi)
+    if (apiFields.length === 0) return
+
+    const fetchOptions = async () => {
+      const options: Record<string, { id: string; label: string }[]> = {}
+      for (const field of apiFields) {
+        try {
+          const res = await fetch(`/api/admin/options?type=${field.optionsFromApi}`)
+          if (res.ok) {
+            options[field.key] = await res.json()
+          }
+        } catch {
+          options[field.key] = []
+        }
+      }
+      setApiOptions(prev => ({ ...prev, ...options }))
+    }
+    fetchOptions()
+  }, [modelName])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    setErrorMessage(null)
 
     try {
       const url = recordId 
@@ -339,11 +431,11 @@ export default function ModelForm({ modelName, recordId, initialData }: ModelFor
         router.push(`/admin/${modelName}`)
       } else {
         const error = await response.json()
-        alert(`Failed to ${recordId ? 'update' : 'create'} record: ${error.error}`)
+        setErrorMessage(error.error || `Failed to ${recordId ? 'update' : 'create'} record`)
       }
     } catch (error) {
       console.error('Form submission error:', error)
-      alert(`Failed to ${recordId ? 'update' : 'create'} record`)
+      setErrorMessage(`Failed to ${recordId ? 'update' : 'create'} record`)
     } finally {
       setLoading(false)
     }
@@ -368,8 +460,14 @@ export default function ModelForm({ modelName, recordId, initialData }: ModelFor
   return (
     <Card className="p-6">
       <h2 className="text-xl font-semibold mb-6">
-        {recordId ? 'Edit' : 'Create'} {modelName.charAt(0).toUpperCase() + modelName.slice(1, -1)}
+        {recordId ? 'Edit' : 'Create'} {modelName.charAt(0).toUpperCase() + modelName.slice(1).replace(/_/g, ' ').replace(/s$/, '')}
       </h2>
+
+      {errorMessage && (
+        <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-md text-sm">
+          {errorMessage}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {fields.map((field) => (
@@ -410,6 +508,27 @@ export default function ModelForm({ modelName, recordId, initialData }: ModelFor
                 onChange={(e) => handleChange(field.key, e.target.checked)}
                 className="mr-2"
               />
+            ) : field.type === 'file-upload' ? (
+              <FileUploadField
+                value={formData[field.key] || ''}
+                onChange={(url) => handleChange(field.key, url)}
+                label={field.label}
+              />
+            ) : field.type === 'select-api' ? (
+              <select
+                id={field.key}
+                value={formData[field.key] || ''}
+                onChange={(e) => handleChange(field.key, e.target.value)}
+                required={field.required}
+                className="admin-form-group select"
+              >
+                <option value="">Select {field.label}</option>
+                {(apiOptions[field.key] || []).map((opt) => (
+                  <option key={opt.id} value={opt.id}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
             ) : (
               <input
                 id={field.key}

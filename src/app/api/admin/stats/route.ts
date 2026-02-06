@@ -43,7 +43,12 @@ export async function GET(request: NextRequest) {
           adminUsers,
           studentGrades,
           studentCertificates,
-          studentSchedules
+          studentSchedules,
+          pendingApplications,
+          unreadContactMessages,
+          courses,
+          courseEnrollments,
+          gallery
         ] = await Promise.all([
           prisma.program.count(),
           prisma.service.count(),
@@ -68,7 +73,12 @@ export async function GET(request: NextRequest) {
           prisma.adminUser.count(),
           prisma.studentGrade.count(),
           prisma.studentCertificate.count(),
-          prisma.studentSchedule.count()
+          prisma.studentSchedule.count(),
+          prisma.application.count({ where: { status: 'pending' } }),
+          prisma.contactMessage.count({ where: { status: 'unread' } }),
+          prisma.course.count(),
+          prisma.courseEnrollment.count(),
+          prisma.gallery.count()
         ])
 
         return NextResponse.json({
@@ -95,7 +105,12 @@ export async function GET(request: NextRequest) {
           adminUsers,
           studentGrades,
           studentCertificates,
-          studentSchedules
+          studentSchedules,
+          pendingApplications,
+          unreadContactMessages,
+          courses,
+          courseEnrollments,
+          gallery
         })
   } catch (error) {
     console.error('Admin stats error:', error)

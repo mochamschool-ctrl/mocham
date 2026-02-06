@@ -275,6 +275,7 @@ model Publication {
   doi         String?
   url         String?
   imageUrl    String?
+  pdfUrl      String?
   slug        String   @unique
   tags        String[]
   readingTime Int?     // Reading time in minutes
@@ -297,13 +298,14 @@ model ResearchStudy {
   participants Int?
   centers     Int?
   imageUrl    String?
+  pdfUrl      String?
   slug        String   @unique
   tags        String[]
   readingTime Int?     // Reading time in minutes
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  
+
   @@map("research_studies")
 }
 

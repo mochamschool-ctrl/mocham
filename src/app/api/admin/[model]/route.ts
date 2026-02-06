@@ -42,6 +42,8 @@ const modelMap: Record<string, any> = {
   studentcertificates: prisma.studentCertificate, // Backward compatibility
   student_schedules: prisma.studentSchedule,
   studentschedules: prisma.studentSchedule, // Backward compatibility
+  // Gallery
+  gallery: prisma.gallery,
   // Course management
   courses: prisma.course,
   course_enrollments: prisma.courseEnrollment,

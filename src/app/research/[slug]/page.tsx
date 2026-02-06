@@ -9,7 +9,8 @@ import {
   FileText,
   Tag,
   Clock,
-  Share2
+  Share2,
+  Download
 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
@@ -28,6 +29,7 @@ interface Publication {
   doi?: string
   url?: string
   imageUrl?: string
+  pdfUrl?: string
   tags?: string[]
   readingTime?: number
   isPublished: boolean
@@ -47,6 +49,7 @@ interface ResearchStudy {
   participants?: number
   centers?: number
   imageUrl?: string
+  pdfUrl?: string
   tags?: string[]
   readingTime?: number
   isActive: boolean
@@ -261,6 +264,14 @@ export default async function ResearchArticlePage({ params }: { params: Promise<
                   <Button variant="outline" size="sm" className="inline-flex items-center">
                     <ExternalLink className="h-4 w-4 mr-2" />
                     View Original
+                  </Button>
+                </a>
+              )}
+              {(publication?.pdfUrl || study?.pdfUrl) && (
+                <a href={publication?.pdfUrl || study?.pdfUrl || '#'} target="_blank" rel="noopener noreferrer" download>
+                  <Button variant="outline" size="sm" className="inline-flex items-center">
+                    <Download className="h-4 w-4 mr-2" />
+                    Download PDF
                   </Button>
                 </a>
               )}

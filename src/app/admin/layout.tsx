@@ -40,12 +40,20 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className={`min-h-screen bg-gray-50 ${sidebarOpen ? 'overflow-hidden' : ''}`}>
       <div className="admin-container">
-        {/* Mobile Menu Button */}
+        {/* Sidebar overlay - mobile only */}
+        <div
+          className={`admin-sidebar-overlay lg:!hidden ${sidebarOpen ? 'visible' : ''}`}
+          onClick={() => setSidebarOpen(false)}
+          aria-hidden="true"
+        />
+
+        {/* Mobile Menu Button - min 44px touch target */}
         <button
-          className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white rounded-md shadow-md"
+          className="lg:hidden fixed top-4 left-4 z-50 min-w-[44px] min-h-[44px] p-2 flex items-center justify-center bg-white rounded-md shadow-md border border-gray-200"
           onClick={() => setSidebarOpen(!sidebarOpen)}
+          aria-label={sidebarOpen ? 'Close menu' : 'Open menu'}
         >
           {sidebarOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
@@ -58,8 +66,8 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
         {/* Main Content */}
         <div className="admin-main">
           <div className="admin-header">
-            <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-            <p className="text-gray-600">Welcome back, {session.name || session.email}</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+            <p className="text-sm sm:text-base text-gray-600">Welcome back, {session.name || session.email}</p>
           </div>
           {children}
         </div>

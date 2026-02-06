@@ -27,6 +27,7 @@ const modelMap: Record<string, any> = {
   student_grades: prisma.studentGrade,
   student_certificates: prisma.studentCertificate,
   student_schedules: prisma.studentSchedule,
+  gallery: prisma.gallery,
   courses: prisma.course,
   course_enrollments: prisma.courseEnrollment,
 }
