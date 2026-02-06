@@ -4,29 +4,15 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { X } from 'lucide-react'
 
-const STORAGE_KEY = 'admission-popup-dismissed'
-
 export default function AdmissionPopUp() {
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
-    const dismissed = sessionStorage.getItem(STORAGE_KEY)
-    if (!dismissed) {
-      const timer = setTimeout(() => setIsVisible(true), 500)
-      return () => clearTimeout(timer)
-    }
+    const timer = setTimeout(() => setIsVisible(true), 500)
+    return () => clearTimeout(timer)
   }, [])
 
-  const handleClose = () => {
-    sessionStorage.setItem(STORAGE_KEY, 'true')
-    setIsVisible(false)
-  }
-
-  const handleApplyClick = () => {
-    sessionStorage.setItem(STORAGE_KEY, 'true')
-    setIsVisible(false)
-  }
+  const handleClose = () => setIsVisible(false)
 
   if (!isVisible) return null
 
@@ -65,7 +51,7 @@ export default function AdmissionPopUp() {
 
           <Link
             href="/contact-us"
-            onClick={handleApplyClick}
+            onClick={handleClose}
             className="block w-full py-4 px-6 text-center font-bold text-white bg-ucsf-blue hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 rounded-xl transition-colors uppercase tracking-wide"
           >
             Apply Now

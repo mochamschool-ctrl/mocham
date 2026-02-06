@@ -17,7 +17,11 @@ import {
   ChevronDown,
   ExternalLink,
   Navigation,
-  Star
+  Star,
+  Award,
+  Users,
+  Stethoscope,
+  ArrowRight
 } from "lucide-react"
 import { useState } from "react"
 import Link from "next/link"
@@ -281,6 +285,170 @@ export default function ContactUsPage() {
                   )}
                 </Button>
               </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Admission & Courses Section */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-gray-50 dark:bg-gray-800">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12 sm:mb-16">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-ucsf-blue dark:text-blue-400 mb-4 sm:mb-6">
+                Join the Future of Integrative Healthcare
+              </h2>
+              <p className="text-base sm:text-lg lg:text-xl text-dim-blue-600 dark:text-gray-300 max-w-3xl mx-auto">
+                At Modern College of Homoeopathy, we blend decades of tradition with modern clinical practice. Our curriculum is designed to qualify you for a global career in alternative and complementary medicine.
+              </p>
+            </div>
+
+            {/* Why Choose Modern College */}
+            <div className="mb-16">
+              <h3 className="text-2xl sm:text-3xl font-bold text-dim-blue-800 dark:text-white mb-8 text-center">
+                Why Choose Modern College?
+              </h3>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <Card className="border-0 shadow-lg bg-white dark:bg-gray-900">
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 bg-ucsf-blue rounded-lg flex items-center justify-center mb-4">
+                      <Award className="h-6 w-6 text-white" />
+                    </div>
+                    <h4 className="font-bold text-dim-blue-800 dark:text-white mb-2">Legacy</h4>
+                    <p className="text-sm text-dim-blue-600 dark:text-gray-400">Training world-class practitioners since 1957.</p>
+                  </CardContent>
+                </Card>
+                <Card className="border-0 shadow-lg bg-white dark:bg-gray-900">
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 bg-medical-green rounded-lg flex items-center justify-center mb-4">
+                      <Users className="h-6 w-6 text-white" />
+                    </div>
+                    <h4 className="font-bold text-dim-blue-800 dark:text-white mb-2">Expert Faculty</h4>
+                    <p className="text-sm text-dim-blue-600 dark:text-gray-400">Learn from seasoned lecturers (Ph.D., M.Sc.) and visiting professors.</p>
+                  </CardContent>
+                </Card>
+                <Card className="border-0 shadow-lg bg-white dark:bg-gray-900">
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 bg-accent-orange rounded-lg flex items-center justify-center mb-4">
+                      <Stethoscope className="h-6 w-6 text-white" />
+                    </div>
+                    <h4 className="font-bold text-dim-blue-800 dark:text-white mb-2">Clinical Experience</h4>
+                    <p className="text-sm text-dim-blue-600 dark:text-gray-400">Practical training at our modern Teaching Hospital facility.</p>
+                  </CardContent>
+                </Card>
+                <Card className="border-0 shadow-lg bg-white dark:bg-gray-900">
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center mb-4">
+                      <Star className="h-6 w-6 text-white" />
+                    </div>
+                    <h4 className="font-bold text-dim-blue-800 dark:text-white mb-2">Global Reach</h4>
+                    <p className="text-sm text-dim-blue-600 dark:text-gray-400">Gain the skills to practice in Nigeria and internationally.</p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            {/* Academic Programs */}
+            <div className="mb-16">
+              <h3 className="text-2xl sm:text-3xl font-bold text-dim-blue-800 dark:text-white mb-8 text-center">
+                Our Academic Programs
+              </h3>
+              <p className="text-center text-dim-blue-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+                We offer Certificate, Diploma, Bachelor, and Master Degrees across several specialized fields:
+              </p>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="p-4 rounded-lg bg-white dark:bg-gray-900">
+                  <h4 className="font-bold text-ucsf-blue dark:text-blue-400 mb-3">5-Year Medical Programs</h4>
+                  <ul className="space-y-1 text-sm text-dim-blue-600 dark:text-gray-400">
+                    <li>• Homoeopathic Medical Science</li>
+                    <li>• Clinical Nutrition & Dietetics</li>
+                    <li>• Homoeopathic Pharmacy</li>
+                    <li>• Electro-Homoeopathy</li>
+                    <li>• Chiropractic Medicine</li>
+                    <li>• Osteopathy</li>
+                  </ul>
+                </div>
+                <div className="p-4 rounded-lg bg-white dark:bg-gray-900">
+                  <h4 className="font-bold text-ucsf-blue dark:text-blue-400 mb-3">4-Year Professional Programs</h4>
+                  <ul className="space-y-1 text-sm text-dim-blue-600 dark:text-gray-400">
+                    <li>• Acupuncture</li>
+                    <li>• Veterinary Homoeopathy</li>
+                    <li>• Professional Nursing & Midwifery</li>
+                    <li>• Naturopathic Science</li>
+                  </ul>
+                </div>
+                <div className="p-4 rounded-lg bg-white dark:bg-gray-900">
+                  <h4 className="font-bold text-ucsf-blue dark:text-blue-400 mb-3">2 & 3-Year Programs</h4>
+                  <ul className="space-y-1 text-sm text-dim-blue-600 dark:text-gray-400">
+                    <li>• Herbology / Botany (3 yrs)</li>
+                    <li>• Natural Medicine (3 yrs)</li>
+                    <li>• Therapeutic Massage (2 yrs)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* Admission Requirements */}
+            <div className="mb-16">
+              <h3 className="text-2xl sm:text-3xl font-bold text-dim-blue-800 dark:text-white mb-8 text-center">
+                Admission Requirements
+              </h3>
+              <p className="text-center text-dim-blue-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
+                To maintain our high standards of excellence, applicants must meet the following criteria:
+              </p>
+              <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <Card className="border-l-4 border-ucsf-blue bg-white dark:bg-gray-900">
+                  <CardContent className="p-6">
+                    <h4 className="font-bold text-dim-blue-800 dark:text-white mb-2">Fresh Students</h4>
+                    <p className="text-sm text-dim-blue-600 dark:text-gray-400">Minimum of five (5) O&apos; Level credits in Biology, English, Chemistry, Physics, and Mathematics.</p>
+                  </CardContent>
+                </Card>
+                <Card className="border-l-4 border-medical-green bg-white dark:bg-gray-900">
+                  <CardContent className="p-6">
+                    <h4 className="font-bold text-dim-blue-800 dark:text-white mb-2">Direct Entry</h4>
+                    <p className="text-sm text-dim-blue-600 dark:text-gray-400">We welcome holders of OND, HND, B.Sc., or M.Sc. looking to specialize in Alternative Medicine.</p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            {/* How to Apply */}
+            <div className="mb-12">
+              <h3 className="text-2xl sm:text-3xl font-bold text-dim-blue-800 dark:text-white mb-8 text-center">
+                How to Apply
+              </h3>
+              <div className="flex flex-col sm:flex-row gap-6 justify-center items-center flex-wrap">
+                <Link href="/contact-us" className="flex items-center gap-3 text-dim-blue-600 dark:text-gray-300 hover:text-ucsf-blue dark:hover:text-blue-400 transition-colors">
+                  <svg className="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  </svg>
+                  <span><strong>Visit our Campus:</strong> 11 Homoeopathic Crescent by 152 Aka Road, Uyo.</span>
+                </Link>
+                <a href="tel:08037935596" className="flex items-center gap-3 text-dim-blue-600 dark:text-gray-300 hover:text-ucsf-blue dark:hover:text-blue-400 transition-colors">
+                  <svg className="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  <span><strong>Call Admissions:</strong> 08037935596 or 09077124866</span>
+                </a>
+                <Link href="/contact-us" className="flex items-center gap-3 text-dim-blue-600 dark:text-gray-300 hover:text-ucsf-blue dark:hover:text-blue-400 transition-colors">
+                  <svg className="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                  </svg>
+                  <span><strong>Online:</strong> Apply via our Contact page</span>
+                </Link>
+              </div>
+              <p className="text-center text-sm text-dim-blue-600 dark:text-gray-400 mt-8 italic">
+                Note: Our &quot;Teaching Hospital&quot; is equipped with modern facilities to ensure students receive practical clinical enlightenment during their study.
+              </p>
+            </div>
+
+            <div className="text-center">
+              <Link href="/contact-us">
+                <Button size="lg" variant="medical" className="font-semibold">
+                  Apply Now
+                  <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
