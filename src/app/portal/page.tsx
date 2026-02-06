@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import PortalAuthModal from '@/components/portal-auth-modal'
+import AdmissionPopUp from '@/components/admission-popup'
 
 export default function PortalLanding() {
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -96,6 +97,9 @@ export default function PortalLanding() {
         isOpen={isAuthModalOpen} 
         onClose={() => setIsAuthModalOpen(false)} 
       />
+
+      {/* Admission Pop-up */}
+      <AdmissionPopUp />
     </div>
   )
 }

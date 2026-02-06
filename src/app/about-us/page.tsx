@@ -1,6 +1,7 @@
 import MainLayout from "@/components/layout/main-layout"
 import HeroCarousel from "@/components/hero-carousel"
 import { Button } from "@/components/ui/button"
+import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { 
   GraduationCap, 
@@ -65,11 +66,24 @@ export default function AboutUsPage() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               <Card className="border-0 shadow-lg">
                 <CardContent className="p-6">
-                  <h3 className="font-bold text-lg text-gray-900 mb-2">Chief Medical Director/Founder</h3>
-                  <p className="text-medical-blue font-semibold mb-2">Dr. E. U. Umoren</p>
-                  <p className="text-sm text-gray-600">
-                    MD, D.H.M., N.D., D.SC., D. B.M., Ph.D (LOND).; FSCU., F.I.A.Sc. Past founder and Grand Patron ANHMA
-                  </p>
+                  <div className="flex items-start gap-4">
+                    <div className="w-20 h-20 rounded-lg flex-shrink-0 relative overflow-hidden bg-gray-200">
+                      <Image
+                        src="/new/FOUNDER.jpeg"
+                        alt="Dr. E. U. Umoren - Founder"
+                        fill
+                        className="object-cover"
+                        sizes="80px"
+                      />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-lg text-gray-900 mb-2">Chief Medical Director/Founder</h3>
+                      <p className="text-medical-blue font-semibold mb-2">Dr. E. U. Umoren</p>
+                      <p className="text-sm text-gray-600">
+                        MD, D.H.M., N.D., D.SC., D. B.M., Ph.D (LOND).; FSCU., F.I.A.Sc. Past founder and Grand Patron ANHMA
+                      </p>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
 

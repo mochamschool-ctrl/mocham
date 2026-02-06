@@ -320,7 +320,7 @@ async function seedHistoryData() {
 
   console.log('Created legacy achievements')
 
-  // Insert placeholder historical documents with /IMG.JPG as placeholder
+  // Insert historical documents with founder and institutional images
   const historicalDocuments = [
     {
       title: 'Dr. E. U. Umoren Portrait',
@@ -328,7 +328,7 @@ async function seedHistoryData() {
       description: 'Official portrait of the founder',
       year: 1901,
       isFeatured: true,
-      fileUrl: '/IMG.JPG'
+      fileUrl: '/new/FOUNDER.jpeg'
     },
     {
       title: 'College Foundation Certificate',
@@ -336,7 +336,7 @@ async function seedHistoryData() {
       description: 'Official certificate of college establishment',
       year: 1982,
       isFeatured: true,
-      fileUrl: '/IMG.JPG'
+      fileUrl: '/new/FOUNDER.jpeg'
     },
     {
       title: 'First Graduation Ceremony',
@@ -344,7 +344,7 @@ async function seedHistoryData() {
       description: 'First matriculation and convocation ceremony',
       year: 1982,
       isFeatured: true,
-      fileUrl: '/IMG.JPG'
+      fileUrl: '/new/FOUNDER.jpeg'
     },
     {
       title: 'International Accreditation',
@@ -352,7 +352,7 @@ async function seedHistoryData() {
       description: 'International recognition certificates',
       year: 2007,
       isFeatured: true,
-      fileUrl: '/IMG.JPG'
+      fileUrl: '/new/FOUNDER.jpeg'
     },
     {
       title: 'Modern Campus View',
@@ -360,7 +360,7 @@ async function seedHistoryData() {
       description: 'Current campus facilities',
       year: 2024,
       isFeatured: true,
-      fileUrl: '/IMG.JPG'
+      fileUrl: '/new/FOUNDER.jpeg'
     },
     {
       title: 'Historical Newspaper Clippings',
@@ -368,7 +368,7 @@ async function seedHistoryData() {
       description: 'Monitor Newspaper columns by Dr. Umoren',
       year: 1950,
       isFeatured: false,
-      fileUrl: '/IMG.JPG'
+      fileUrl: '/new/FOUNDER.jpeg'
     },
     {
       title: 'Academic Achievements Gallery',
@@ -376,7 +376,7 @@ async function seedHistoryData() {
       description: 'Gallery of academic milestones',
       year: 2024,
       isFeatured: false,
-      fileUrl: '/IMG.JPG'
+      fileUrl: '/new/FOUNDER.jpeg'
     }
   ]
 

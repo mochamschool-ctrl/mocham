@@ -312,7 +312,7 @@ export const historicalDocumentsData = [
     description: 'Official portrait of the founder',
     year: 1901,
     isFeatured: true,
-    fileUrl: '/IMG.JPG' // Add your image path here
+    fileUrl: '/new/FOUNDER.jpeg'
   },
   {
     id: '2',
@@ -321,7 +321,7 @@ export const historicalDocumentsData = [
     description: 'Official certificate of college establishment',
     year: 1982,
     isFeatured: true,
-    fileUrl: '/IMG.JPG' // Add your image path here
+    fileUrl: '/new/FOUNDER.jpeg'
   },
   {
     id: '3',
@@ -330,7 +330,7 @@ export const historicalDocumentsData = [
     description: 'First matriculation and convocation ceremony',
     year: 1982,
     isFeatured: true,
-    fileUrl: '/IMG.JPG' // Add your image path here
+    fileUrl: '/new/FOUNDER.jpeg'
   },
   {
     id: '4',
@@ -339,7 +339,7 @@ export const historicalDocumentsData = [
     description: 'International recognition certificates',
     year: 2007,
     isFeatured: true,
-    fileUrl: '/IMG.JPG' // Add your image path here
+    fileUrl: '/new/FOUNDER.jpeg'
   },
   {
     id: '5',
@@ -348,7 +348,7 @@ export const historicalDocumentsData = [
     description: 'Current campus facilities',
     year: 2024,
     isFeatured: true,
-    fileUrl: '/IMG.JPG' // Add your image path here
+    fileUrl: '/new/FOUNDER.jpeg'
   }
 ]
 
